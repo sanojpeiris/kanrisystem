@@ -29,4 +29,6 @@ urlpatterns = [
     path("search", viewsDailyTasks.search, name="search"),
     path("moveToSearch", viewsDailyTasks.moveToSearch, name="moveToSearch"),
 
+
+
 ]

@@ -54,13 +54,13 @@
         {% csrf_token %}
 
         昨日やったこと：
-        <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー" />
+        <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー" value={{category_yesterday_con}}/>
         <datalist id="category_yesterday">
             {% for task_item in category_yesterday %}
-                <option value="{{ task_item }}" >   
+                <option value="{{ task_item }}">
             {% endfor %}
         </datalist>
-        <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと"/><br/>
+        <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと" value={{yesterday_con}}/><br/>
 
         今日やったこと：
         <input list="category_today" name="category_today"　placeholder="カテゴリー"/>
