@@ -1,0 +1,181 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Bootstrap Tutorial Sample Page</title>
+        {#        <meta http-equiv="refresh" content="5" >#}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+
+        {% if first_login == True %}
+            <script>
+                location.href = "/todoView";
+                window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+            </script>
+        {% endif %}
+
+    </head>
+    <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <nav class="bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Menu</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
+                data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="todoView">Refresh</a>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="moveToRegister">Create User</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="moveToUpdateUser">Edit User</a>
+                </li>
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link" href="moveToHistory">History</a>#}
+                <li class="nav-item">
+                    <a class="nav-link" href="search">Search</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Log Out</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    {% for todo_item in all_items %}
+        {% if dateToday == todo_item.date %}
+            <h5>User: {{ todo_item.edit_username }}</h5>
+            <ul><h6>Time: {{ todo_item.time }}</h6></ul>
+            <ul><h6>Date: {{ todo_item.date }}</h6></ul>
+            <ul>
+                昨日やったこと：
+                <input type="text" name="category_yesterday" id="category_yesterday" placeholder="カテゴリー"
+                       value="{{ todo_item.category_yesterday }}"
+                       readonly/>
+                <input type="text" name="yesterday" id="yesterday" style="width: 300px;"
+                       value="{{ todo_item.yesterday }}"
+                       placeholder="昨日やったこと" readonly/>
+                {% if request.user.username == todo_item.edit_username %}
+                    <input type="button" id="updateBtn_yesterday" name="updateBtn_yesterday" value="Edit"/>
+                {% endif %}
+                
+                <script>
+                    document.getElementById("updateBtn_yesterday").onclick = function () {
+                        document.getElementById("category_yesterday").removeAttribute('readonly')
+                        document.getElementById("yesterday").removeAttribute('readonly')
+                    };
+                </script>
+            </ul>
+
+
+            <ul>
+                今日やったこと：
+                <input type="text" name="category_today" id="category_today" placeholder="カテゴリー"
+                       value="{{ todo_item.category_today }}"
+                       readonly/>
+                <input type="text" name="today" id="today" style="width: 300px;" value="{{ todo_item.today }}"
+                       placeholder="今日やったこと"
+                       readonly/>
+                {% if request.user.username == todo_item.edit_username %}
+                    <input type="submit" id="updateBtn_today" value="Edit"/>
+
+                {% endif %}
+                <script>
+                    document.getElementById("updateBtn_today").onclick = function () {
+                        document.getElementById("category_today").readOnly = false;
+                        document.getElementById("today").readOnly = false;
+                    };
+                </script>
+            </ul>
+
+            <ul>
+                困っていること：
+                <input type="text" name="category_bad" id="category_bad" placeholder="カテゴリー"
+                       value="{{ todo_item.category_bad }}" readonly/>
+                <input type="text" name="bad" id="bad" style="width: 300px;" value="{{ todo_item.bad }}"
+                       placeholder=" 困っていること"
+                       readonly/>
+                {% if request.user.username == todo_item.edit_username %}
+                    <input type="submit" id="updateBtn_bad" value="Edit"/>
+                {% endif %}
+                <script>
+                    document.getElementById("updateBtn_bad").onclick = function () {
+                        document.getElementById("category_bad").readOnly = false;
+                        document.getElementById("bad").readOnly = false;
+                    };
+                </script>
+            </ul>
+
+            <ul>
+                -その他　　　 ：
+                <input type="text" name="category_other" id="category_other" placeholder="カテゴリー"
+                       value="{{ todo_item.category_other }}"
+                       readonly/>
+                <input type="text" name="other" id="other" style="width: 300px;" value="{{ todo_item.other }}"
+                       placeholder=" その他"
+                       readonly/>
+                {% if request.user.username == todo_item.edit_username %}
+                    <input type="submit" id="updateBtn_other" value="Edit"/>
+                {% endif %}
+                <script>
+                    document.getElementById("updateBtn_other").onclick = function () {
+                        document.getElementById("category_other").readOnly = false;
+                        document.getElementById("other").readOnly = false;
+                    };
+                </script>
+
+                <br/>
+
+                <form action="deleteTodo/{{ todo_item.id }}"
+                      style="display: inline;"
+                      method="post">
+                    {% csrf_token %}
+
+                    <input type="submit" value="delete">  
+                </form>
+
+
+                    
+                </form>
+            </ul>
+            <br/>
+            <br/>
+        {% endif %}
+    {% endfor %}
+
+    <form action="moveToTodo" method="post">
+        {% csrf_token %}
+
+        <input type="submit" value="CREATE TASK"
+               style="position: absolute;right:300px;top:400px; height:200px;width:200px">
+    </form>
+
+    </body>
+    </html>
+{% else %}
+    <a class="nav-link" href="moveToLogin">
+        <h1>please login!!!!</h1>
+    </a>
+{% endif %}

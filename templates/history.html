@@ -1,0 +1,147 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 5px;
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <nav class="bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Menu</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
+                data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="moveToHistory">Refresh</a>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="moveToRegister">Create User</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="moveToUpdateUser">Edit User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Log Out</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <h2>search history</h2>
+
+    <form action="viewHistory" method="post">
+        {% csrf_token %}
+        user<br><br>
+        <select name="user">
+            {% for all_user_items in all_user_items %}
+                <option>{{ all_user_items.username }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        Category<br><br>
+        <select name="category_today">
+            {% for todo_item in all_items %}
+                <option>{{ todo_item.category_today}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        Period<br><br>
+        <select name="period">
+            <option>weekly</option>
+            <option>monthly</option>
+        </select>
+        <br><br>
+        <input type="submit">
+    </form>
+    <div>
+
+
+        <table style="width:80%">
+            <tr>
+                <th>User</th>
+                <th>period</th>
+                <th>category</th>
+                <th>Task</th>
+                <th>Time</th>
+                <th>Date</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>{{ username_op }}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>{{ period_op }}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for today_category in category_items %}
+                            <li>{{ today_category.category_today }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        {% for today_Task in today_items %}
+                            <li>{{ today_Task.today }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for today_Task in today_items %}
+                            <li>{{ today_Task.time }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for today_Task in today_items %}
+                            <li>{{ today_Task.date }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </body>
+    </html>
+{% else %}
+    <a class="nav-link" href="moveToLogin">
+        <h1>please login!!!!</h1>
+    </a>
+{% endif %}

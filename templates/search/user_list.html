@@ -1,0 +1,147 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 5px;
+                text-align: left;
+            }
+        </style>
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+        <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+    </head>
+    <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <nav class="bg-dark navbar-dark">
+        <a class="navbar-brand" href="/home">Menu</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
+                data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="search">Refresh</a>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="moveToRegister">Create User</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="moveToUpdateUser">Edit User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Log Out</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <h2>search history</h2>
+
+    {% block content %}
+        <ul>
+            <form method="post">
+                {% csrf_token %}
+                user :
+                {% comment %} <input list="username" name="edit_username">
+                <datalist id="username">
+                    {% for task_item in user_list %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                </datalist> {% endcomment %}
+                <select name="edit_username">
+                         <option value="">all</option>
+                 {% for task_item in user_list %}
+                        <option>{{ task_item }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+
+                Category :
+                {% comment %} <input list="category" name="category_today">
+                <datalist id="category">
+                    {% for task_item in category_list %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                </datalist> {% endcomment %}
+                       <select name="category_today">
+                         <option value="">all</option>
+                 {% for task_item in category_list %}
+                        <option>{{ task_item }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+
+                Period :
+                {#                <input list="period" name="date">#}
+                {#                <datalist id="period">#}
+                {#                    {% for task_item in date_list %}#}
+                {#                        <option value="{{ task_item|date:'Y-m-d'}}">#}
+                {#                    {% endfor %}#}
+                {#                </datalist>#}
+                <input type="date" name="date">
+                {#                <input id="datepicker" type="text"  name="date" style="width: 150px">#}
+
+                {% comment %} <script>
+                    var datepicker = new ej.calendars.DatePicker({width: "150px"});
+                    datepicker.appendTo('#datepicker');
+                </script> {% endcomment %}
+                <br><br>
+                <button type="submit">Search</button>
+
+            </form>
+        </ul>
+        <ul>
+            <ul>
+                <table style="width:80%">
+                    <thead>
+                    <tr>
+                        <th>username</th>
+                        <th>category</th>
+                        <th>task</th>
+                        <th>date</th>
+                        <th>time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task_item in filter.qs %}
+                        <tr>
+                            <td>{{ task_item.edit_username }}</td>
+                            <td>{{ task_item.category_today }}</td>
+                            <td>{{ task_item.today }}</td>
+                            <td>{{ task_item.date }}</td>
+                            <td>{{ task_item.time }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </ul>
+        </ul>
+    {% endblock %}
+    </body>
+    </html>
+{% else %}
+    <a class="nav-link" href="moveToLogin">
+        <h1>please login!!!!</h1>
+    </a>
+{% endif %}
