@@ -46,43 +46,12 @@ def moveToTodo(request):
                                          })
 
 
-def moveToHistory(request):
-    all_todo_items = TaskItem.objects.all()
-    all_user_items = User.objects.all()
-    return render(request, "history.html", {"all_items": all_todo_items, "all_user_items": all_user_items})
-
-
 def taskView(request):
     dateToday = datetime.date.today()
     all_todo_items = TaskItem.objects.all().order_by('time').reverse()
     return render(request, "home.html", {"all_items": all_todo_items,
                                          "dateToday": dateToday,
                                          })
-
-
-def viewHistory(request):
-    all_todo_items = TaskItem.objects.all()
-    all_user_items = User.objects.all()
-    # today = TodoItem.objects.values("today")
-
-    if request.method == "POST":
-        username_op = request.POST["user"]
-        category_op = request.POST["category_today"]
-        period_op = request.POST["period"]
-        today = TaskItem.objects.filter(edit_username=username_op)
-        category_today = TaskItem.objects.filter(edit_username=username_op)
-        # if category_op == category:
-        return render(request, "history.html", {"today_items": today,
-                                                "category_items": category_today,
-                                                "username_op": username_op,
-                                                "category_op": category_op,
-                                                "period_op": period_op,
-                                                "all_items": all_todo_items,
-                                                "all_user_items": all_user_items
-                                                })
-
-    else:
-        return redirect(moveToHistory)
 
 
 def back(request):
@@ -113,10 +82,6 @@ def addTask(request):
 def saveTask(request, todo_id):
     username1 = request.user.username
     new_item = TaskItem(
-        # edit_username=username1,
-        # category=request.POST.getlist("category"),
-        # content=request.POST.getlist("content"),
-        # variety="today",
         edit_username=username1,
         yesterday=request.POST["yesterday"],
         today=request.POST["today"],
@@ -128,16 +93,10 @@ def saveTask(request, todo_id):
         category_other=request.POST["category_other"],
     )
     new_item.save(todo_id)
-    # item_to_save = TaskItem.objects.get(new_item)
-    # item_to_save.save(todo_id)
-    return redirect("deleteTodo", todo_id)
+    return redirect("deleteTask", todo_id)
 
 
-# password = User.objects.get(id=userId)
-# password.set_password(password1)
-# password.save()
-
-def deleteTodo(request, todo_id):
+def deleteTask(request, todo_id):
     item_to_delete = TaskItem.objects.get(id=todo_id)
     item_to_delete.delete()
     return redirect("taskView")

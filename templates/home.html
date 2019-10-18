@@ -4,7 +4,7 @@
     <html lang="en">
     <head>
         <title>Bootstrap Tutorial Sample Page</title>
-        {#        <meta http-equiv="refresh" content="5" >#}
+{#                <meta http-equiv="refresh" content="5" >#}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -19,7 +19,7 @@
         {% endif %}
 
     </head>
-    <body>
+    <body background="{% static "images/Black_white_background.jpg"%}" style="background-size: cover">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -37,7 +37,8 @@
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="taskView">Refresh</a>
+        <a href="taskView"> <img src="{% static "images/refresh.png"%}" alt="IMG" style="width:50px;height:50px;"></a>
+
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
                 {% if request.user.is_superuser %}
@@ -48,8 +49,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="moveToUpdateUser">Edit User</a>
                 </li>
-                {#                <li class="nav-item">#}
-                {#                    <a class="nav-link" href="moveToHistory">History</a>#}
                 <li class="nav-item">
                     <a class="nav-link" href="search">Search</a>
                 </li>
@@ -61,8 +60,6 @@
             </ul>
         </div>
     </nav>
-
-
 
     {% for todo_item in all_items %}
         <form style="display: inline;"
@@ -160,8 +157,9 @@
                 <br/>
                     {% if request.user.username == todo_item.edit_username %}
                 <button formaction="saveTask/{{ todo_item.id }}" style="display: none;" >save</button>
-                <button formaction="deleteTodo/{{ todo_item.id }}" >delete</button>
-
+                         <div class="container-login100-form-btn">
+                <button class="login100-form-btn" formaction="deleteTask/{{ todo_item.id }}" >delete</button>
+                         </div>
                       {% endif %}
                 <br/>
                 <br/>
