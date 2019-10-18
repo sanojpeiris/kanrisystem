@@ -25,10 +25,12 @@ def moveToTodo(request):
     cursor2 = connection.cursor()
     username = request.user.username
     cursor1.execute(
-        "SELECT category_today  from useractivities_taskitem where date =(select max(date) from useractivities_taskitem WHERE date < DATE('now') )  and edit_username = %s",
+        "SELECT category_today  from useractivities_taskitem where date =(select max(date) from "
+        "useractivities_taskitem WHERE date < DATE('now') )  and edit_username = %s",
         [username])
     cursor2.execute(
-        "SELECT today from useractivities_taskitem where date =(select max(date) from useractivities_taskitem WHERE date < DATE('now') )  and edit_username = %s",
+        "SELECT today from useractivities_taskitem where date =(select max(date) from useractivities_taskitem WHERE "
+        "date < DATE('now') )  and edit_username = %s",
         [username])
 
     row_category_today = cursor1.fetchone()
@@ -52,7 +54,7 @@ def moveToHistory(request):
 
 def taskView(request):
     dateToday = datetime.date.today()
-    all_todo_items = TaskItem.objects.all()
+    all_todo_items = TaskItem.objects.all().order_by('time').reverse()
     return render(request, "home.html", {"all_items": all_todo_items,
                                          "dateToday": dateToday,
                                          })

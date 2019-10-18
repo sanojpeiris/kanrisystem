@@ -53,17 +53,31 @@
         {% csrf_token %}
 
         昨日やったこと :
-            {% for task_item in category_yesterday_con %}
-        <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー" value="{{ task_item }}"/>
-             {% endfor %}
-        <datalist id="category_yesterday">
+    {% if category_yesterday_con == None %}
+        <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー"/>
+               <datalist id="category_yesterday" >
+            <option value="hi" selected>hi</option>
             {% for task_item in category_yesterday %}
                 <option value="{{ task_item }}">
             {% endfor %}
+    {% else %}
+        {% for task_item in category_yesterday_con %}
+        <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー" value="{{task_item}}"/>
+             {% endfor %}
+        <datalist id="category_yesterday" >
+            <option value="hi" selected>hi</option>
+            {% for task_item in category_yesterday %}
+                <option value="{{ task_item }}">
+            {% endfor %}
+    {% endif %}
         </datalist>
+    {% if yesterday_con == None %}
+          <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと" />
+    {% else %}
              {% for task_item in yesterday_con %}
         <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと" value="{{task_item}}"/>
              {% endfor %}
+    {% endif %}
              <br/>
 
         今日やったこと :

@@ -158,15 +158,15 @@
                     </script>
 
                 <br/>
+                    {% if request.user.username == todo_item.edit_username %}
+                <button formaction="saveTask/{{ todo_item.id }}" style="display: none;" >save</button>
+                <button formaction="deleteTodo/{{ todo_item.id }}" >delete</button>
 
-                <button formaction="saveTask/{{ todo_item.id }}">save/{{ todo_item.id }}</button>
-                <button formaction="deleteTodo/{{ todo_item.id }}">delete/{{ todo_item.id }}</button>
-
+                      {% endif %}
                 <br/>
                 <br/>
             {% endif %}
             </ul>
-
         </form>
 
     {% endfor %}
