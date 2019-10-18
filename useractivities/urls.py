@@ -16,9 +16,9 @@ urlpatterns = [
     path("moveToRegister", viewsUser.moveToRegister, name="moveToRegister"),
     path("moveToUpdateUser", viewsUser.moveToUpdateUser, name="moveToUpdateUser"),
     path("moveToTodo", viewsDailyTasks.moveToTodo, name="moveToTodo"),
-    path("todoView", viewsDailyTasks.taskView, name="todoView"),
+    path("taskView", viewsDailyTasks.taskView, name="taskView"),
     path("addTask", viewsDailyTasks.addTask, name="addTask"),
-    path("saveTask", viewsDailyTasks.saveTask, name="saveTask"),
+    path("saveTask/<int:todo_id>", viewsDailyTasks.saveTask, name="saveTask"),
     path("deleteTodo/<int:todo_id>", viewsDailyTasks.deleteTodo, name="deleteTodo"),
     path("back", viewsDailyTasks.back, name="back"),
     path("moveToUpdatePassword", viewsUser.moveToUpdatePassword, name="moveToUpdatePassword"),
@@ -28,6 +28,9 @@ urlpatterns = [
     path("viewHistory", viewsDailyTasks.viewHistory, name="viewHistory"),
     path("search", viewsDailyTasks.search, name="search"),
     path("moveToSearch", viewsDailyTasks.moveToSearch, name="moveToSearch"),
+    path("saveTodo/<int:todo_id>", viewsDailyTasks.saveTodo, name="saveTodo"),
+
+
 
 
 

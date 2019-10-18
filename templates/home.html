@@ -13,7 +13,7 @@
 
         {% if first_login == True %}
             <script>
-                location.href = "/todoView";
+                location.href = "/taskView";
                 window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
             </script>
         {% endif %}
@@ -37,7 +37,7 @@
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="todoView">Refresh</a>
+        <a class="navbar-brand" href="taskView">Refresh</a>
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
                 {% if request.user.is_superuser %}
@@ -65,104 +65,110 @@
 
 
     {% for todo_item in all_items %}
-        {% if dateToday == todo_item.date %}
-            <h5>User: {{ todo_item.edit_username }}</h5>
-            <ul><h6>Time: {{ todo_item.time }}</h6></ul>
-            <ul><h6>Date: {{ todo_item.date }}</h6></ul>
-            <ul>
-                昨日やったこと：
-                <input type="text" name="category_yesterday" id="category_yesterday" placeholder="カテゴリー"
-                       value="{{ todo_item.category_yesterday }}"
-                       readonly/>
-                <input type="text" name="yesterday" id="yesterday" style="width: 300px;"
-                       value="{{ todo_item.yesterday }}"
-                       placeholder="昨日やったこと" readonly/>
-                {% if request.user.username == todo_item.edit_username %}
-                    <input type="button" id="updateBtn_yesterday" name="updateBtn_yesterday" value="Edit"/>
-                {% endif %}
-                
-                <script>
-                    document.getElementById("updateBtn_yesterday").onclick = function () {
-                        document.getElementById("category_yesterday").removeAttribute('readonly')
-                        document.getElementById("yesterday").removeAttribute('readonly')
-                    };
-                </script>
-            </ul>
+        <form style="display: inline;"
+              method="post"
+              formaction="default_url_when_press_enter">
+
+            {% csrf_token %}
+            {% if dateToday == todo_item.date %}
+                <h5>User: {{ todo_item.edit_username }}</h5>
+                <ul><h6>Time: {{ todo_item.time }}</h6></ul>
+                <ul><h6>Date: {{ todo_item.date }}</h6></ul>
+                <ul>
+                    昨日やったこと：
+                    <input type="text" name="category_yesterday" id="category_yesterday{{ todo_item.id }}" placeholder="カテゴリー"
+                           value="{{ todo_item.category_yesterday }}"
+                           readonly/>
+                    <input type="text" name="yesterday" id="yesterday{{ todo_item.id }}" style="width: 300px;"
+                           value="{{ todo_item.yesterday }}"
+                           placeholder="昨日やったこと"
+                           readonly/>
+                    {% if request.user.username == todo_item.edit_username %}
+                        <input type="button" id="updateBtn_yesterday{{ todo_item.id }}" name="updateBtn_yesterday" value="Edit"/>
+                    {% endif %}
+
+                    <script>
+                        document.getElementById("updateBtn_yesterday{{ todo_item.id }}").onclick = function () {
+                            document.getElementById("category_yesterday{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("yesterday{{ todo_item.id }}").removeAttribute('readonly')
+                        };
+                    </script>
+
+                </ul>
 
 
-            <ul>
-                今日やったこと：
-                <input type="text" name="category_today" id="category_today" placeholder="カテゴリー"
-                       value="{{ todo_item.category_today }}"
-                       readonly/>
-                <input type="text" name="today" id="today" style="width: 300px;" value="{{ todo_item.today }}"
-                       placeholder="今日やったこと"
-                       readonly/>
-                {% if request.user.username == todo_item.edit_username %}
-                    <input type="submit" id="updateBtn_today" value="Edit"/>
+                <ul>
+                    今日やったこと：
+                    <input type="text" name="category_today" id="category_today{{ todo_item.id }}" placeholder="カテゴリー"
+                           value="{{ todo_item.category_today }}"
+                           readonly/>
+                    <input type="text" name="today" id="today{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.today }}"
+                           placeholder="今日やったこと"
+                           readonly/>
+                     {% if request.user.username == todo_item.edit_username %}
+                        <input type="button" id="updateBtn_today{{ todo_item.id }}"  value="Edit"/>
+                    {% endif %}
 
-                {% endif %}
-                <script>
-                    document.getElementById("updateBtn_today").onclick = function () {
-                        document.getElementById("category_today").readOnly = false;
-                        document.getElementById("today").readOnly = false;
-                    };
-                </script>
-            </ul>
+                    <script>
+                        document.getElementById("updateBtn_today{{ todo_item.id }}").onclick = function () {
+                            document.getElementById("category_today{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("today{{ todo_item.id }}").removeAttribute('readonly')
+                        };
+                    </script>
 
-            <ul>
-                困っていること：
-                <input type="text" name="category_bad" id="category_bad" placeholder="カテゴリー"
-                       value="{{ todo_item.category_bad }}" readonly/>
-                <input type="text" name="bad" id="bad" style="width: 300px;" value="{{ todo_item.bad }}"
-                       placeholder=" 困っていること"
-                       readonly/>
-                {% if request.user.username == todo_item.edit_username %}
-                    <input type="submit" id="updateBtn_bad" value="Edit"/>
-                {% endif %}
-                <script>
-                    document.getElementById("updateBtn_bad").onclick = function () {
-                        document.getElementById("category_bad").readOnly = false;
-                        document.getElementById("bad").readOnly = false;
-                    };
-                </script>
-            </ul>
+                </ul>
 
-            <ul>
+                <ul>
+                    困っていること：
+                    <input type="text" name="category_bad" id="category_bad{{ todo_item.id }}" placeholder="カテゴリー"
+                           value="{{ todo_item.category_bad }}" readonly/>
+                    <input type="text" name="bad" id="bad{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.bad }}"
+                           placeholder=" 困っていること"
+                           readonly/>
+                     {% if request.user.username == todo_item.edit_username %}
+                        <input type="button" id="updateBtn_bad{{ todo_item.id }}"  value="Edit"/>
+                    {% endif %}
+
+                    <script>
+                        document.getElementById("updateBtn_bad{{ todo_item.id }}").onclick = function () {
+                            document.getElementById("category_bad{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("bad{{ todo_item.id }}").removeAttribute('readonly')
+                        };
+                    </script>
+
+                </ul>
+
+                <ul>
                 -その他　　　 ：
-                <input type="text" name="category_other" id="category_other" placeholder="カテゴリー"
+                <input type="text" name="category_other" id="category_other{{ todo_item.id }}" placeholder="カテゴリー"
                        value="{{ todo_item.category_other }}"
                        readonly/>
-                <input type="text" name="other" id="other" style="width: 300px;" value="{{ todo_item.other }}"
+                <input type="text" name="other" id="other{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.other }}"
                        placeholder=" その他"
                        readonly/>
-                {% if request.user.username == todo_item.edit_username %}
-                    <input type="submit" id="updateBtn_other" value="Edit"/>
-                {% endif %}
-                <script>
-                    document.getElementById("updateBtn_other").onclick = function () {
-                        document.getElementById("category_other").readOnly = false;
-                        document.getElementById("other").readOnly = false;
-                    };
-                </script>
+                    {% if request.user.username == todo_item.edit_username %}
+                        <input type="button" id="updateBtn_other{{ todo_item.id }}"  value="Edit"/>
+                    {% endif %}
+
+                    <script>
+                        document.getElementById("updateBtn_other{{ todo_item.id }}").onclick = function () {
+                            document.getElementById("category_other{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("other{{ todo_item.id }}").removeAttribute('readonly')
+                        };
+                    </script>
 
                 <br/>
 
-                <form action="deleteTodo/{{ todo_item.id }}"
-                      style="display: inline;"
-                      method="post">
-                    {% csrf_token %}
+                <button formaction="saveTask/{{ todo_item.id }}">save/{{ todo_item.id }}</button>
+                <button formaction="deleteTodo/{{ todo_item.id }}">delete/{{ todo_item.id }}</button>
 
-                    <input type="submit" value="delete">  
-                </form>
-
-
-                    
-                </form>
+                <br/>
+                <br/>
+            {% endif %}
             </ul>
-            <br/>
-            <br/>
-        {% endif %}
+
+        </form>
+
     {% endfor %}
 
     <form action="moveToTodo" method="post">

@@ -13,7 +13,7 @@
 
         {% if first_login == True %}
             <script>
-                location.href = "/todoView";
+                location.href = "/taskView";
                 window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
             </script>
         {% endif %}
@@ -37,7 +37,7 @@
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="todoView">Refresh</a>
+        <a class="navbar-brand" href="taskView">Refresh</a>
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
                 {% if request.user.is_superuser %}

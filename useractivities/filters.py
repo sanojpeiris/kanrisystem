@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from useractivities.userRepository.models import TodoItem
+from useractivities.userRepository.models import TaskItem
 import django_filters
 
 
@@ -9,7 +9,7 @@ class TaskFilter(django_filters.FilterSet):
     # date = django_filters.DateRangeFilter(label='Date_Range')
 
     class Meta:
-        model = TodoItem
+        model = TaskItem
         fields = [
             "edit_username",
             "category_today",

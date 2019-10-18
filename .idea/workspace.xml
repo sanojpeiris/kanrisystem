@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38d2a9a2-de82-4765-9584-d7372dfb72ec" name="Default Changelist" comment="" />
+    <list default="true" id="38d2a9a2-de82-4765-9584-d7372dfb72ec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e13250b6-e9c4-4500-abca-b58e46bb06df.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e13250b6-e9c4-4500-abca-b58e46bb06df.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search/user_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/todo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/mydatabase" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/mydatabase" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/userRepository/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/userRepository/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/userRepository/viewsUser.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/userRepository/viewsUser.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +51,6 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Django default" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
-        <item name="useractivities_todoitem: table" type="3d80ac25:SqliteImplModel$Table" />
-      </path>
     </expand>
     <select />
   </component>
@@ -55,11 +64,15 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1R2DGGsU7HQymgZFSbvaXUwqD2t" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -85,7 +98,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django server.webtaskapp">
+    <configuration name="Unnamed" type="NodeJSConfigurationType" nameIsGenerated="true" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
     <configuration name="webtaskapp" type="Python.DjangoServer" factoryName="Django server">
       <module name="webtaskapp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,9 +110,9 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="webtaskapp.settings" />
       </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
@@ -109,12 +125,26 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Django server.webtaskapp" />
+      <item itemvalue="Node.js.Unnamed" />
+    </list>
   </component>
   <component name="ServiceViewManager">
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3fccf94c" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3fccf94c" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@37f1793c" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -172,11 +202,35 @@
       <workItem from="1570691587391" duration="1081000" />
       <workItem from="1570696472387" duration="389000" />
       <workItem from="1570752685622" duration="362000" />
+      <workItem from="1571215157699" duration="1372000" />
+      <workItem from="1571285698062" duration="131000" />
+      <workItem from="1571294618120" duration="1727000" />
+      <workItem from="1571296452643" duration="1787000" />
+      <workItem from="1571298277935" duration="1445000" />
+      <workItem from="1571300110773" duration="1740000" />
+      <workItem from="1571301934219" duration="1745000" />
+      <workItem from="1571303749220" duration="1692000" />
+      <workItem from="1571305572684" duration="1060000" />
+      <workItem from="1571357650126" duration="1192000" />
+      <workItem from="1571359334822" duration="979000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

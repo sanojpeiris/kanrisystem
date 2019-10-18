@@ -1,4 +1,7 @@
 {
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "venv/bin/python3.7"
+    "python.pythonPath": "venv/bin/python3.7",
+    "python.linting.banditEnabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

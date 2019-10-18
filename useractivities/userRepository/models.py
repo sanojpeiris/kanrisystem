@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class TodoItem(models.Model):
+class TaskItem(models.Model):
     # category = models.TextField()
     # content = models.TextField()
     # variety = models.TextField()
