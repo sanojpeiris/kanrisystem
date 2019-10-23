@@ -2,18 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38d2a9a2-de82-4765-9584-d7372dfb72ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/Black_white_background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/refresh.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/refresh.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/webtaskapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webtaskapp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/search/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search/user_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/todo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/useractivities/mydatabase" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/mydatabase" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/useractivities/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,8 +63,8 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/images" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -113,9 +108,10 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
       <option name="host" value="" />
       <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="" />
+      <option name="browserUrl" value="http://172.16.17.109:8000/" />
       <option name="runTestServer" value="false" />
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
@@ -216,7 +212,13 @@
       <workItem from="1571373135645" duration="1508000" />
       <workItem from="1571374955799" duration="1542000" />
       <workItem from="1571376773071" duration="1629000" />
-      <workItem from="1571380148037" duration="1495000" />
+      <workItem from="1571380148037" duration="1746000" />
+      <workItem from="1571387566890" duration="162000" />
+      <workItem from="1571389383767" duration="1375000" />
+      <workItem from="1571391259248" duration="1582000" />
+      <workItem from="1571619269082" duration="91000" />
+      <workItem from="1571619387026" duration="133000" />
+      <workItem from="1571804082904" duration="703000" />
     </task>
     <servers />
   </component>

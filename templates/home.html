@@ -14,7 +14,7 @@
         {% if first_login == True %}
             <script>
                 location.href = "/taskView";
-                window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+                window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
             </script>
         {% endif %}
 
@@ -37,7 +37,11 @@
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="taskView"> <img src="{% static "images/refresh.png"%}" alt="IMG" style="width:50px;height:50px;"></a>
+        <a href="taskView"> <img src="{% static "images/refresh.png"%}" alt="IMG" style="width:50px;height:50px;" id="refreshBtn"></a>
+            <script>document.getElementById("refreshBtn").onclick = function () {
+                            var icon=document.getElementById("refreshBtn");
+                            var rotate=icon.style.transform = "rotate(130deg)";
+                        };</script>
 
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
@@ -63,14 +67,33 @@
 
     {% for todo_item in all_items %}
         <form style="display: inline;"
-              method="post"
-              formaction="default_url_when_press_enter">
+              method="post">
 
             {% csrf_token %}
             {% if dateToday == todo_item.date %}
                 <h5>User: {{ todo_item.edit_username }}</h5>
                 <ul><h6>Time: {{ todo_item.time }}</h6></ul>
-                <ul><h6>Date: {{ todo_item.date }}</h6></ul>
+                <ul><h6>Date: {{ todo_item.date }}
+                                    {% if request.user.username == todo_item.edit_username %}
+                <button formaction="" style="border-radius: 50%;  color: white; background-color: #Ac3B61;
+                                  padding: 10px;
+                                  text-align: center;
+                                  display: inline-block;
+                                  font-size: 16px;
+                                  margin: 2px;" id="delete_task_Btn{{ todo_item.id }}" >delete</button>
+                      {% endif %}
+                                  <script>
+                             document.getElementById("delete_task_Btn{{ todo_item.id }}").onclick = function () {
+                                     var r = confirm("ARE YOU SURE!");
+                                    if (r == true) {
+                                      location.href = "/deleteTask/{{todo_item.id}}";
+                                    } else {
+                                      return false;
+                                    };
+                        };
+                            </script>
+                </h6>
+                </ul>
                 <ul>
                     昨日やったこと：
                     <input type="text" name="category_yesterday" id="category_yesterday{{ todo_item.id }}" placeholder="カテゴリー"
@@ -88,6 +111,8 @@
                         document.getElementById("updateBtn_yesterday{{ todo_item.id }}").onclick = function () {
                             document.getElementById("category_yesterday{{ todo_item.id }}").removeAttribute('readonly')
                             document.getElementById("yesterday{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
+
                         };
                     </script>
 
@@ -110,6 +135,8 @@
                         document.getElementById("updateBtn_today{{ todo_item.id }}").onclick = function () {
                             document.getElementById("category_today{{ todo_item.id }}").removeAttribute('readonly')
                             document.getElementById("today{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
+
                         };
                     </script>
 
@@ -130,6 +157,7 @@
                         document.getElementById("updateBtn_bad{{ todo_item.id }}").onclick = function () {
                             document.getElementById("category_bad{{ todo_item.id }}").removeAttribute('readonly')
                             document.getElementById("bad{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
                         };
                     </script>
 
@@ -151,20 +179,25 @@
                         document.getElementById("updateBtn_other{{ todo_item.id }}").onclick = function () {
                             document.getElementById("category_other{{ todo_item.id }}").removeAttribute('readonly')
                             document.getElementById("other{{ todo_item.id }}").removeAttribute('readonly')
+                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
                         };
                     </script>
 
                 <br/>
                     {% if request.user.username == todo_item.edit_username %}
-                <button formaction="saveTask/{{ todo_item.id }}" style="display: none;" >save</button>
-                         <div class="container-login100-form-btn">
-                <button class="login100-form-btn" formaction="deleteTask/{{ todo_item.id }}" >delete</button>
-                         </div>
+                <button formaction="saveTask/{{ todo_item.id }}" id="saveBtn{{ todo_item.id }}" style="border-radius: 50%;  color: white; background-color: #123c69;
+                                  padding: 10px;
+                                  text-align: center;
+                                  display: inline-block;
+                                  font-size: 16px;
+                                  visibility: hidden;
+                                  margin: 2px;">save</button>
                       {% endif %}
                 <br/>
                 <br/>
             {% endif %}
             </ul>
+
         </form>
 
     {% endfor %}
@@ -173,7 +206,16 @@
         {% csrf_token %}
 
         <input type="submit" value="CREATE TASK"
-               style="position: absolute;right:300px;top:400px; height:200px;width:200px">
+               style="position: absolute;right:300px;top:400px; height:200px;width:200px; background-color: #bab2b5;
+                                border: 6px solid #ccc;
+                                color: white;
+                                padding: 20px;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                font-size: 16px;
+                                margin: 4px 2px;
+                                border-radius: 500px">
     </form>
 
     </body>
