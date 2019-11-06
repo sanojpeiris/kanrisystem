@@ -20,3 +20,33 @@ class TaskItem(models.Model):
     def __str__(self):
         return self.today
 
+class TaskUser(models.Model):
+    edit_username = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+class TaskType(models.Model):
+    tasktype = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    
+class TaskProject(models.Model):
+    taskProject=models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+class Task(models.Model):
+    task=models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+class TaskTable(models.Model):
+    edit_username = models.TextField()
+    taskProject=models.TextField()
+    tasktype = models.TextField()
+    task=models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+# def __unicode___(self):
+#     return self.edit_username

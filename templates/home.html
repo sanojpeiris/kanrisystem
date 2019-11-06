@@ -4,22 +4,24 @@
     <html lang="en">
     <head>
         <title>Bootstrap Tutorial Sample Page</title>
-{#                <meta http-equiv="refresh" content="5" >#}
+        {#                <meta http-equiv="refresh" content="5" >#}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
-
+        <script src="{% static "myscripts.js" %}"></script>
         {% if first_login == True %}
             <script>
                 location.href = "/taskView";
-                window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+                window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no, status=no');
             </script>
         {% endif %}
-
+    <script type="text/javascript">
+    window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+    </script>
     </head>
-    <body background="{% static "images/Black_white_background.jpg"%}" style="background-size: cover">
+    <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -31,17 +33,18 @@
             crossorigin="anonymous"></script>
 
 
-    <nav class="bg-dark navbar-dark">
+    <nav class="bg-dark navbar-dark" style="position: fixed;width: 100%;">
         <a class="navbar-brand" href="#">Menu</a>
         <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="taskView"> <img src="{% static "images/refresh.png"%}" alt="IMG" style="width:50px;height:50px;" id="refreshBtn"></a>
-            <script>document.getElementById("refreshBtn").onclick = function () {
-                            var icon=document.getElementById("refreshBtn");
-                            var rotate=icon.style.transform = "rotate(130deg)";
-                        };</script>
+        <a href="taskView"> <img src="{% static "images/refresh.png" %}" alt="IMG" style="width:50px;height:50px;"
+                                 id="refreshBtn"></a>
+        <script>document.getElementById("refreshBtn").onclick = function () {
+            var icon = document.getElementById("refreshBtn");
+            var rotate = icon.style.transform = "rotate(130deg)";
+        };</script>
 
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
@@ -64,143 +67,112 @@
             </ul>
         </div>
     </nav>
+    </br></br></br>
 
-    {% for todo_item in all_items %}
+    {% for user in all_user_items %}
+
         <form style="display: inline;"
               method="post">
-
             {% csrf_token %}
-            {% if dateToday == todo_item.date %}
-                <h5>User: {{ todo_item.edit_username }}</h5>
-                <ul><h6>Time: {{ todo_item.time }}</h6></ul>
-                <ul><h6>Date: {{ todo_item.date }}
-                                    {% if request.user.username == todo_item.edit_username %}
-                <button formaction="" style="border-radius: 50%;  color: white; background-color: #Ac3B61;
+    
+            <h5>User: {{ user }}
+                                     {% if request.user.username == user %}  
+                <button formaction="deleteTask/{{ user }}" style="border-radius: 50%;  color: white; background-color: #Ac3B61;
                                   padding: 10px;
                                   text-align: center;
                                   display: inline-block;
                                   font-size: 16px;
-                                  margin: 2px;" id="delete_task_Btn{{ todo_item.id }}" >delete</button>
-                      {% endif %}
-                                  <script>
-                             document.getElementById("delete_task_Btn{{ todo_item.id }}").onclick = function () {
-                                     var r = confirm("ARE YOU SURE!");
-                                    if (r == true) {
-                                      location.href = "/deleteTask/{{todo_item.id}}";
-                                    } else {
-                                      return false;
-                                    };
+                                  margin: 2px;" id="delete_task_Btn{{ user }}">delete
+                </button>
+           
+                <script>
+                    document.getElementById("delete_task_Btn{{ user}}").onclick = function () {
+                        var r = confirm("ARE YOU SURE!");
+                        if (r == true) {
+                            location.href = "/deleteTask/{{user}}";
+                        } else {
+                            return false;
                         };
-                            </script>
-                </h6>
-                </ul>
-                <ul>
-                    昨日やったこと：
-                    <input type="text" name="category_yesterday" id="category_yesterday{{ todo_item.id }}" placeholder="カテゴリー"
-                           value="{{ todo_item.category_yesterday }}"
+                    };
+                </script>
+                        {%endif%}
+            </h5>
+            {% for task_item in all_items %}
+                {% if task_item.edit_username == user %}
+                      {%if task_item.date == dateToday%}                     
+                    <ul>
+                    <lb style="color: blue; display: inline-block; width: 150px; padding:-50px;" >
+ 
+                    {{ task_item.tasktype|slice:"1:" }}</lb>
+                    <input type="text" name="category{{ task_item.id }}" id="category_yesterday{{ task_item.id }}" placeholder="カテゴリー"
+                           value="{{ task_item.taskProject }}"
                            readonly/>
-                    <input type="text" name="yesterday" id="yesterday{{ todo_item.id }}" style="width: 300px;"
-                           value="{{ todo_item.yesterday }}"
-                           placeholder="昨日やったこと"
+                   
+                    <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}" style="width: 300px;"
+                           value="{{ task_item.task }}"
+                           placeholder="{{task_item.tasktype|slice:"1:"}}"
                            readonly/>
-                    {% if request.user.username == todo_item.edit_username %}
-                        <input type="button" id="updateBtn_yesterday{{ todo_item.id }}" name="updateBtn_yesterday" value="Edit"/>
+                    
+                    {% if request.user.username == task_item.edit_username %}
+                        <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
+                               value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;
+                                  padding: 5px;
+                                  text-align: center;
+                                  display: inline-block;
+                                  font-size: 16px;
+                                  margin: 2px;"/>
+
+                      <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}" name="addBtn_yesterday"
+                               style="border-radius: 10%;  color: white; background-color: #d4a690;
+                                  padding: 5px 12px;
+                                  text-align: center;
+                                  display: inline-block;
+                                  font-size: 16px;
+                                  margin: -5px;"> + </Button>
+
+                      <Button formaction="deleteTask_id/{{ task_item.id }}" id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
+                               style="border-radius: 10%;  color: white; background-color: #Ac3B61;
+                                  padding: 5px 12px;
+                                  text-align: center;
+                                  display: inline-block;
+                                  font-size: 16px;
+                                  margin: 2px;"> X </Button>
+                        <lb style="font-size: 8px;">：(Date: {{task_item.date}}) ：(update time: {{task_item.time}})</lb>
+
+                                  <script>               
+                                        document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
+                                                    var r = confirm("ARE YOU SURE!");
+                                                    if (r == true) {location.href = "/deleteTask_id/{{ task_item.id }}";} else {return false;};};
+                                    </script>
                     {% endif %}
 
                     <script>
-                        document.getElementById("updateBtn_yesterday{{ todo_item.id }}").onclick = function () {
-                            document.getElementById("category_yesterday{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("yesterday{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
-
+                        document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
+                            document.getElementById("category_yesterday{{ task_item.id }}").removeAttribute('readonly')
+                            var yesterday=document.getElementById("yesterday{{ task_item.id}}")
+                                yesterday.removeAttribute('readonly')
+                                yesterday.style.background = "black";
+                                yesterday.style.color = "white";
+                            document.getElementById("category_yesterday{{ task_item.id }}").style.background = "black";
+                            document.getElementById("category_yesterday{{ task_item.id }}").style.color = "white";
+                            document.getElementById("saveBtn{{ task_item.id}}").style.visibility = "visible";
                         };
                     </script>
-
-                </ul>
-
-
-                <ul>
-                    今日やったこと：
-                    <input type="text" name="category_today" id="category_today{{ todo_item.id }}" placeholder="カテゴリー"
-                           value="{{ todo_item.category_today }}"
-                           readonly/>
-                    <input type="text" name="today" id="today{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.today }}"
-                           placeholder="今日やったこと"
-                           readonly/>
-                     {% if request.user.username == todo_item.edit_username %}
-                        <input type="button" id="updateBtn_today{{ todo_item.id }}"  value="Edit"/>
-                    {% endif %}
-
-                    <script>
-                        document.getElementById("updateBtn_today{{ todo_item.id }}").onclick = function () {
-                            document.getElementById("category_today{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("today{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
-
-                        };
-                    </script>
-
-                </ul>
-
-                <ul>
-                    困っていること：
-                    <input type="text" name="category_bad" id="category_bad{{ todo_item.id }}" placeholder="カテゴリー"
-                           value="{{ todo_item.category_bad }}" readonly/>
-                    <input type="text" name="bad" id="bad{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.bad }}"
-                           placeholder=" 困っていること"
-                           readonly/>
-                     {% if request.user.username == todo_item.edit_username %}
-                        <input type="button" id="updateBtn_bad{{ todo_item.id }}"  value="Edit"/>
-                    {% endif %}
-
-                    <script>
-                        document.getElementById("updateBtn_bad{{ todo_item.id }}").onclick = function () {
-                            document.getElementById("category_bad{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("bad{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
-                        };
-                    </script>
-
-                </ul>
-
-                <ul>
-                -その他　　　 ：
-                <input type="text" name="category_other" id="category_other{{ todo_item.id }}" placeholder="カテゴリー"
-                       value="{{ todo_item.category_other }}"
-                       readonly/>
-                <input type="text" name="other" id="other{{ todo_item.id }}" style="width: 300px;" value="{{ todo_item.other }}"
-                       placeholder=" その他"
-                       readonly/>
-                    {% if request.user.username == todo_item.edit_username %}
-                        <input type="button" id="updateBtn_other{{ todo_item.id }}"  value="Edit"/>
-                    {% endif %}
-
-                    <script>
-                        document.getElementById("updateBtn_other{{ todo_item.id }}").onclick = function () {
-                            document.getElementById("category_other{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("other{{ todo_item.id }}").removeAttribute('readonly')
-                            document.getElementById("saveBtn{{ todo_item.id }}").style.visibility="visible";
-                        };
-                    </script>
-
-                <br/>
-                    {% if request.user.username == todo_item.edit_username %}
-                <button formaction="saveTask/{{ todo_item.id }}" id="saveBtn{{ todo_item.id }}" style="border-radius: 50%;  color: white; background-color: #123c69;
+                    <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}" style="border-radius: 50%;  color: white; background-color: #123c69;
                                   padding: 10px;
                                   text-align: center;
                                   display: inline-block;
                                   font-size: 16px;
                                   visibility: hidden;
-                                  margin: 2px;">save</button>
-                      {% endif %}
-                <br/>
-                <br/>
-            {% endif %}
-            </ul>
-
-        </form>
-
+                                  margin: 2px;">Save</button>
+</ul>
+            
+       {%endif%}
+        {%endif%}
     {% endfor %}
+    
+        </form>
+{%endfor%}
 
     <form action="moveToTodo" method="post">
         {% csrf_token %}
@@ -213,8 +185,9 @@
                                 text-align: center;
                                 text-decoration: none;
                                 display: inline-block;
+                                position: fixed;
                                 font-size: 16px;
-                                margin: 4px 2px;
+                                margin: 4px -120px;
                                 border-radius: 500px">
     </form>
 
