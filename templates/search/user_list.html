@@ -10,10 +10,17 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="{% static "css/mystyle.css"%}">
-    <script type="text/javascript">
-    window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
-    </script>
+        <link rel="stylesheet" type="text/css" href="{% static "css/mystyle.css" %}">
+        <script type="text/javascript">
+            window.addEventListener('keydown', function (e) {
+                if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+                    if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            }, true);
+        </script>
     </head>
     <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -28,17 +35,15 @@
 
 
     <nav class="bg-dark navbar-dark" style="position: fixed;width: 100%;">
-        <a class="navbar-brand" href="taskView">Menu</a>
+           <a href="taskView"> <img src="{% static "images/back.png" %}" alt="IMG" style="width:50px;height:50px;"
+                                 id="refreshBtn"></a>
         <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a href="search"> <img src="{% static "images/refresh.png" %}" alt="IMG" style="width:50px;height:50px;"
-                                 id="refreshBtn"></a>
-        <script>document.getElementById("refreshBtn").onclick = function () {
-            var icon = document.getElementById("refreshBtn");
-            var rotate = icon.style.transform = "rotate(130deg)";
-        };</script>
+                               id="refreshBtn"></a>
+
 
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
@@ -68,35 +73,35 @@
         <ul>
             <form method="post">
                 {% csrf_token %}
-                user :
+                <lb style="display: inline-block; width: 100px;">user :</lb>
                 <select name="edit_username">
-                         <option value="">all</option>
-                 {% for task_item in user_list %}
+                    <option value="">all</option>
+                    {% for task_item in user_list %}
                         <option>{{ task_item }}</option>
                     {% endfor %}
                 </select>
                 <br><br>
 
-                Category :
-                       <select name="taskProject">
-                         <option value="">all</option>
-                     {% for task_item in category_list %}
+                <lb style="display: inline-block; width: 100px;">Category :</lb>
+                <select name="taskProject">
+                    <option value="">all</option>
+                    {% for task_item in category_list %}
                         <option>{{ task_item }}</option>
-                    {% endfor %} 
+                    {% endfor %}
                 </select>
-             
+
 
                 <br><br>
 
-                Period :
+                <lb style="display: inline-block; width: 100px;">Period :</lb>
                 <input type="date" name="date">
-  
+
                 <br><br>
                 <button type="submit">Search</button>
-                    <br><br>
-                          <select name="tasktype" style=" visibility: hidden;">
-                         <option value="2今日やること">2今日やること</option>
-                         </select>
+                <br><br>
+                <select name="tasktype" style=" visibility: hidden;">
+                    <option value="2今日やること">2今日やること</option>
+                </select>
 
             </form>
         </ul>
@@ -104,22 +109,21 @@
             <ul>
                 <table style="width:80%">
                     <thead>
-                    <tr>
+                    <tr style="text-align: center; color:blue;">
                         <th>username</th>
                         <th>category</th>
-
                         <th>task</th>
                         <th>date</th>
                         <th>time</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for task_item in filter.qs %}
+                    {% for task_item in filter.qs.all|dictsort:"edit_username" %}
                         <tr>
                             <td>{{ task_item.edit_username }}</td>
                             <td>{{ task_item.taskProject }}</td>
-                            <td>{{ task_item.task}}</td>
-                            <td>{{ task_item.date }}</td>
+                            <td>{{ task_item.task }}</td>
+                            <td>{{ task_item.date }}: {{ task_item.date|date:"l" }}</td>
                             <td>{{ task_item.time }}</td>
                         </tr>
                     {% endfor %}

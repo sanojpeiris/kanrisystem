@@ -26,10 +26,13 @@ urlpatterns = [
     path("updatePassword", viewsUser.updatePassword, name="updatePassword"),
     path("closeWindow", viewsUser.closeWindow, name="closeWindow"),
     path("search", viewsDailyTasks.search, name="search"),
-    path("moveToSearch", viewsDailyTasks.moveToSearch, name="moveToSearch"),
+    path("base", viewsDailyTasks.moveToSearch, name="moveToSearch"),
     path("saveTodo/<int:todo_id>", viewsDailyTasks.saveTodo, name="saveTodo"),
     path("addrow/<int:todo_id>", viewsDailyTasks.addrow, name="addrow"),
-
+    path("sendMessage",viewsDailyTasks.sendMessage,name="sendMessage"),
+    path("saveState/<int:message_id>", viewsDailyTasks.saveState, name="saveState"),
+    path("deleteState/<int:message_id>", viewsDailyTasks.deleteState, name="deleteState"),
+    # path("addrow_task/<int:todo_id>", viewsDailyTasks.addrow_task, name="addrow_task"),
 
 
 

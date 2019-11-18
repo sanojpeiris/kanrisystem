@@ -107,16 +107,16 @@ def updateUser(request):
                     messages.info(request, "email exists")
                     return redirect("moveToUpdateUser")
 
-                    user = User.objects.get(username=username)
-                    user.email = email
-                    user.save()
+                user = User.objects.get(username=username)
+                user.email = email
+                user.save()
 
-                    password = User.objects.get(username=username)
-                    password.set_password(password1)
-                    password.save()
+                password = User.objects.get(username=username)
+                password.set_password(password1)
+                password.save()
 
-                    messages.info(request, "password changed")
-                    return redirect("moveToUpdateUser")
+                messages.info(request, "password changed")
+                return redirect("moveToUpdateUser")
         else:
             messages.info(request, "password is not match")
             return redirect("moveToUpdateUser")

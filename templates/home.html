@@ -4,7 +4,7 @@
     <html lang="en">
     <head>
         <title>Bootstrap Tutorial Sample Page</title>
-        {#                <meta http-equiv="refresh" content="5" >#}
+   
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -17,10 +17,31 @@
                 window.open("/moveToUpdatePassword", 'popUpWindow', 'height=780,width=328,left=500,top=100,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no, status=no');
             </script>
         {% endif %}
-    <script type="text/javascript">
-    window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
-    </script>
+        <script type="text/javascript">
+            window.addEventListener('keydown', function (e) {
+                if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+                    if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            }, true);
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+                var scrollpos = localStorage.getItem('scrollpos');
+                if (scrollpos) window.scrollTo(0, scrollpos);
+            });
+
+            window.onbeforeunload = function (e) {
+                localStorage.setItem('scrollpos', window.scrollY);
+            };
+        </script>
+
+                  <meta http-equiv="refresh" content="60" >
     </head>
+
     <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -32,15 +53,26 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 
-
     <nav class="bg-dark navbar-dark" style="position: fixed;width: 100%;">
+    
+ <marquee behavior="alternate">
+       {%for message in messages%} 
+        {% if  request.user.username == message.spec_user%}
+           <lb style="color:red">{{message.message}}</lb>
+           {%endif%}
+           {% if  message.spec_user == "toall"%}
+           <lb style="color:red">{{message.message}}</lb>
+           {%endif%}
+       {%endfor%}
+</marquee>
         <a class="navbar-brand" href="#">Menu</a>
         <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse"
                 data-target="#main-navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a href="taskView"> <img src="{% static "images/refresh.png" %}" alt="IMG" style="width:50px;height:50px;"
-                                 id="refreshBtn"></a>
+                                 id="refreshBtn"></a> 
+
         <script>document.getElementById("refreshBtn").onclick = function () {
             var icon = document.getElementById("refreshBtn");
             var rotate = icon.style.transform = "rotate(130deg)";
@@ -68,129 +100,380 @@
         </div>
     </nav>
     </br></br></br>
-
-    {% for user in all_user_items %}
+    <div class="container" style="background: transparent;">
+        <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=medium&timezone=Asia%2FTokyo"
+                height="100" frameborder="0"
+                style="overflow:hidden;margin: 0px 985px;position:fixed; width:200px 500px; z-index: -2;"></iframe>
+    </div>
+<br>
+    {% for user in user_today %}
 
         <form style="display: inline;"
-              method="post">
+              method="post"
+              id="myform">
             {% csrf_token %}
-    
+      
             <h5>User: {{ user }}
-                                     {% if request.user.username == user %}  
-                <button formaction="deleteTask/{{ user }}" style="border-radius: 50%;  color: white; background-color: #Ac3B61;
-                                  padding: 10px;
-                                  text-align: center;
-                                  display: inline-block;
-                                  font-size: 16px;
-                                  margin: 2px;" id="delete_task_Btn{{ user }}">delete
-                </button>
-           
-                <script>
-                    document.getElementById("delete_task_Btn{{ user}}").onclick = function () {
-                        var r = confirm("ARE YOU SURE!");
-                        if (r == true) {
-                            location.href = "/deleteTask/{{user}}";
-                        } else {
-                            return false;
-                        };
-                    };
-                </script>
-                        {%endif%}
-            </h5>
-            {% for task_item in all_items %}
-                {% if task_item.edit_username == user %}
-                      {%if task_item.date == dateToday%}                     
-                    <ul>
-                    <lb style="color: blue; display: inline-block; width: 150px; padding:-50px;" >
- 
-                    {{ task_item.tasktype|slice:"1:" }}</lb>
-                    <input type="text" name="category{{ task_item.id }}" id="category_yesterday{{ task_item.id }}" placeholder="カテゴリー"
-                           value="{{ task_item.taskProject }}"
-                           readonly/>
-                   
-                    <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}" style="width: 300px;"
-                           value="{{ task_item.task }}"
-                           placeholder="{{task_item.tasktype|slice:"1:"}}"
-                           readonly/>
-                    
-                    {% if request.user.username == task_item.edit_username %}
-                        <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
-                               value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;
-                                  padding: 5px;
-                                  text-align: center;
-                                  display: inline-block;
-                                  font-size: 16px;
-                                  margin: 2px;"/>
+               
 
-                      <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}" name="addBtn_yesterday"
-                               style="border-radius: 10%;  color: white; background-color: #d4a690;
-                                  padding: 5px 12px;
-                                  text-align: center;
-                                  display: inline-block;
-                                  font-size: 16px;
-                                  margin: -5px;"> + </Button>
-
-                      <Button formaction="deleteTask_id/{{ task_item.id }}" id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
-                               style="border-radius: 10%;  color: white; background-color: #Ac3B61;
-                                  padding: 5px 12px;
-                                  text-align: center;
-                                  display: inline-block;
-                                  font-size: 16px;
-                                  margin: 2px;"> X </Button>
-                        <lb style="font-size: 8px;">：(Date: {{task_item.date}}) ：(update time: {{task_item.time}})</lb>
-
-                                  <script>               
-                                        document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
-                                                    var r = confirm("ARE YOU SURE!");
-                                                    if (r == true) {location.href = "/deleteTask_id/{{ task_item.id }}";} else {return false;};};
-                                    </script>
-                    {% endif %}
+                {% if request.user.username == user %}
+            
+                    <button formaction="deleteTask/{{ user }}" style="border-radius: 50%;  color: white; background-color: #Ac3B61;padding: 10px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;" id="delete_task_Btn{{ user }}">delete
+                    </button>
 
                     <script>
-                        document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
-                            document.getElementById("category_yesterday{{ task_item.id }}").removeAttribute('readonly')
-                            var yesterday=document.getElementById("yesterday{{ task_item.id}}")
-                                yesterday.removeAttribute('readonly')
-                                yesterday.style.background = "black";
-                                yesterday.style.color = "white";
-                            document.getElementById("category_yesterday{{ task_item.id }}").style.background = "black";
-                            document.getElementById("category_yesterday{{ task_item.id }}").style.color = "white";
-                            document.getElementById("saveBtn{{ task_item.id}}").style.visibility = "visible";
-                        };
+                        document.getElementById("delete_task_Btn{{ user}}").onclick = function () {
+                            var r = confirm("ARE YOU SURE!");
+                            if (r == true) {location.href = "/deleteTask/{{user}}";} else {return false;};};
                     </script>
-                    <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}" style="border-radius: 50%;  color: white; background-color: #123c69;
-                                  padding: 10px;
-                                  text-align: center;
-                                  display: inline-block;
-                                  font-size: 16px;
-                                  visibility: hidden;
-                                  margin: 2px;">Save</button>
-</ul>
             
-       {%endif%}
-        {%endif%}
-    {% endfor %}
-    
-        </form>
-{%endfor%}
+                {% endif %}
+     
+            </h5>
+            {% for task_item in all_items_yesterday %}
+            
+                {% if task_item.edit_username == user %}
+                    
+                        <li>
+                            <lb style="color: #00308F; display: inline-block; width: 150px; " >                               
+                                {{ task_item.tasktype|slice:"1:" }}:</lb>
+                           <input list="category_yesterday{{ task_item.id }}" id="category{{ task_item.id }}" name="category{{ task_item.id }}"　placeholder="カテゴリー" value="{{task_item.taskProject}}"  style=" background:transparent;color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;
+                                        border-bottom-style: hidden; font-weight:bold; width: 120px;"  disabled />:-
+                            <datalist id="category_yesterday{{ task_item.id }}">
+                                {% for task_item in taskproject %}
+                                <option value="{{ task_item }}">
+                                        {% endfor %}
+                                </datalist>
 
+                         
+
+                            <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}"
+                                   style="width: 350px; background:transparent; color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;border-bottom-style: hidden;"  
+                                   value="{{ task_item.task }}"
+                                   placeholder="{{ task_item.tasktype|slice:'1:' }}"
+                                   disabled/>
+                            {% if request.user.username == task_item.edit_username %}
+                                <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
+                                       value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;padding: 5px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"/>
+
+                                <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}"
+                                        name="addBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;"> +
+                                </Button>
+                                
+
+                                {%if deletebtncount_yesterday > 1%}
+                                <Button formaction="deleteTask_id/{{ task_item.id }}"
+                                        id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> X
+                                </Button>
+                                    {%endif%}
+
+                                <script>
+                                    document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
+                                        var r = confirm("ARE YOU SURE!");
+                                        if (r == true) {
+                                            location.href = "/deleteTask_id/{{ task_item.id }}";
+                                        } else {
+                                            return false;
+                                        }
+                                        ;
+                                    };
+                                </script>
+                            {% endif %}
+                            <lb style="font-size: 8px;">：(Time: {{ task_item.date }}: {{ task_item.time }})</lb>
+
+                            <script>
+                                var clicked = false;
+                                document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
+                                    if (clicked) {
+                                        document.getElementById('saveBtn{{ task_item.id }}').click()
+                                        clicked = false;
+                                    } else {
+                                        document.getElementById("category{{ task_item.id }}").removeAttribute('disabled')
+                                        var yesterday = document.getElementById("yesterday{{ task_item.id}}")
+                                        yesterday.removeAttribute('disabled')
+                                        yesterday.style.background = "black";
+                                        yesterday.style.color = "white";
+                                        document.getElementById("category{{ task_item.id }}").style.background = "black";
+                                        document.getElementById("category{{ task_item.id }}").style.color = "white";
+                                        var button = document.getElementById("updateBtn{{ task_item.id}}")
+                                        button.value = "save";
+                                        button.style.background = "blue";
+                                        clicked = true;
+                                    }
+                                }
+                            </script>
+
+                            <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}"
+                                    style="visibility:hidden">
+                        </li>
+
+                    
+                {% endif %}
+            {% endfor %}
+
+
+
+
+             {% for task_item in all_items_today %}
+            
+                {% if task_item.edit_username == user %}
+                    
+                        <li>
+                            <lb style="color: #1974D2; display: inline-block; width: 150px; " >
+                       
+                                {{ task_item.tasktype|slice:"1:" }}:</lb>
+                           <input list="category_yesterday{{ task_item.id }}" id="category{{ task_item.id }}" name="category{{ task_item.id }}"　placeholder="カテゴリー" value="{{task_item.taskProject}}"  style=" background:transparent;color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;
+                                        border-bottom-style: hidden; font-weight:bold; width: 120px;"  disabled />:-
+                            <datalist id="category_yesterday{{ task_item.id }}">
+                                {% for task_item in taskproject %}
+                                <option value="{{ task_item }}">
+                                        {% endfor %}
+                                </datalist>
+
+                         
+
+                            <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}"
+                                   style="width: 350px; background:transparent; color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;border-bottom-style: hidden;"  
+                                   value="{{ task_item.task }}"
+                                   placeholder="{{ task_item.tasktype|slice:'1:' }}"
+                                   disabled/>
+                            {% if request.user.username == task_item.edit_username %}
+                                <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
+                                       value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;padding: 5px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"/>
+
+                                <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}"
+                                        name="addBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;"> +
+                                </Button>
+                                {%if deletebtncount_today > 1%}
+                                <Button formaction="deleteTask_id/{{ task_item.id }}"
+                                        id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> X
+                                </Button>
+                                    {%endif%}
+
+                                <script>
+                                    document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
+                                        var r = confirm("ARE YOU SURE!");
+                                        if (r == true) {
+                                            location.href = "/deleteTask_id/{{ task_item.id }}";
+                                        } else {
+                                            return false;
+                                        }
+                                        ;
+                                    };
+                                </script>
+                            {% endif %}
+                            <lb style="font-size: 8px;">：(Time: {{ task_item.date }}: {{ task_item.time }})</lb>
+
+                            <script>
+                                var clicked = false;
+                                document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
+                                    if (clicked) {
+                                        document.getElementById('saveBtn{{ task_item.id }}').click()
+                                        clicked = false;
+                                    } else {
+                                        document.getElementById("category{{ task_item.id }}").removeAttribute('disabled')
+                                        var yesterday = document.getElementById("yesterday{{ task_item.id}}")
+                                        yesterday.removeAttribute('disabled')
+                                        yesterday.style.background = "black";
+                                        yesterday.style.color = "white";
+                                        document.getElementById("category{{ task_item.id }}").style.background = "black";
+                                        document.getElementById("category{{ task_item.id }}").style.color = "white";
+                                        var button = document.getElementById("updateBtn{{ task_item.id}}")
+                                        button.value = "save";
+                                        button.style.background = "blue";
+                                        clicked = true;
+                                    }
+                                }
+                            </script>
+
+                            <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}"
+                                    style="visibility:hidden">
+                        </li>
+
+                {% endif %}
+            {% endfor %}
+
+
+
+ {% for task_item in all_items_bad %}
+            
+                {% if task_item.edit_username == user %}
+            
+                        <li>
+                            <lb style="color: #8E55FF; display: inline-block; width: 150px; " >
+                       
+                                {{ task_item.tasktype|slice:"1:" }}:</lb>
+                           <input list="category_yesterday{{ task_item.id }}" id="category{{ task_item.id }}" name="category{{ task_item.id }}"　placeholder="カテゴリー" value="{{task_item.taskProject}}"  style=" background:transparent;color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;
+                                        border-bottom-style: hidden; font-weight:bold; width: 120px;"  disabled />:-
+                            <datalist id="category_yesterday{{ task_item.id }}">
+                                {% for task_item in taskproject %}
+                                <option value="{{ task_item }}">
+                                        {% endfor %}
+                                </datalist>
+
+                         
+
+                            <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}"
+                                   style="width: 350px; background:transparent; color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;border-bottom-style: hidden;"  
+                                   value="{{ task_item.task }}"
+                                   placeholder="{{ task_item.tasktype|slice:'1:' }}"
+                                   disabled/>
+                            {% if request.user.username == task_item.edit_username %}
+                                <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
+                                       value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;padding: 5px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"/>
+
+                                <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}"
+                                        name="addBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;"> +
+                                </Button>
+                                {%if deletebtncount_bad > 1%}
+                                <Button formaction="deleteTask_id/{{ task_item.id }}"
+                                        id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> X
+                                </Button>
+                                    {%endif%}
+
+                                <script>
+                                    document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
+                                        var r = confirm("ARE YOU SURE!");
+                                        if (r == true) {
+                                            location.href = "/deleteTask_id/{{ task_item.id }}";
+                                        } else {
+                                            return false;
+                                        }
+                                        ;
+                                    };
+                                </script>
+                            {% endif %}
+                            <lb style="font-size: 8px;">：(Time: {{ task_item.date }}: {{ task_item.time }})</lb>
+
+                            <script>
+                                var clicked = false;
+                                document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
+                                    if (clicked) {
+                                        document.getElementById('saveBtn{{ task_item.id }}').click()
+                                        clicked = false;
+                                    } else {
+                                        document.getElementById("category{{ task_item.id }}").removeAttribute('disabled')
+                                        var yesterday = document.getElementById("yesterday{{ task_item.id}}")
+                                        yesterday.removeAttribute('disabled')
+                                        yesterday.style.background = "black";
+                                        yesterday.style.color = "white";
+                                        document.getElementById("category{{ task_item.id }}").style.background = "black";
+                                        document.getElementById("category{{ task_item.id }}").style.color = "white";
+                                        var button = document.getElementById("updateBtn{{ task_item.id}}")
+                                        button.value = "save";
+                                        button.style.background = "blue";
+                                        clicked = true;
+                                    }
+                                }
+                            </script>
+
+                            <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}"
+                                    style="visibility:hidden">
+                        </li>
+
+             
+                {% endif %}
+            {% endfor %}
+
+ {% for task_item in all_items_other %}
+            
+                {% if task_item.edit_username == user %}
+                   
+                        <li>
+                            <lb style="color: #0000FF; display: inline-block; width: 150px; " >
+                       
+                                {{ task_item.tasktype|slice:"1:" }}:</lb>
+                           <input list="category_yesterday{{ task_item.id }}" id="category{{ task_item.id }}" name="category{{ task_item.id }}"　placeholder="カテゴリー" value="{{task_item.taskProject}}"  style=" background:transparent;color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;
+                                        border-bottom-style: hidden; font-weight:bold; width: 120px;"  disabled />:-
+                            <datalist id="category_yesterday{{ task_item.id }}">
+                                {% for task_item in taskproject %}
+                                <option value="{{ task_item }}">
+                                        {% endfor %}
+                                </datalist>
+
+                         
+
+                            <input type="text" name="yesterday{{ task_item.id }}" id="yesterday{{ task_item.id }}"
+                                   style="width: 350px; background:transparent; color:brown;border-top-style: hidden;border-right-style: hidden;border-left-style: hidden;border-bottom-style: hidden;"  
+                                   value="{{ task_item.task }}"
+                                   placeholder="{{ task_item.tasktype|slice:'1:' }}"
+                                   disabled/>
+                            {% if request.user.username == task_item.edit_username %}
+                                <input type="button" id="updateBtn{{ task_item.id }}" name="updateBtn_yesterday"
+                                       value="Edit" style="border-radius: 10%;  color: white; background-color: #d4a656;padding: 5px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"/>
+
+                                <Button formaction="addrow/{{ task_item.id }}" id="addBtn{{ task_item.id }}"
+                                        name="addBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;"> +
+                                </Button>
+                                {%if deletebtncount_other > 1%}
+                                <Button formaction="deleteTask_id/{{ task_item.id }}"
+                                        id="deleterowBtn{{ task_item.id }}" name="deleterowBtn_yesterday"
+                                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> X
+                                </Button>
+                                    {%endif%}
+
+                                <script>
+                                    document.getElementById("deleterowBtn{{ task_item.id }}").onclick = function () {
+                                        var r = confirm("ARE YOU SURE!");
+                                        if (r == true) {
+                                            location.href = "/deleteTask_id/{{ task_item.id }}";
+                                        } else {
+                                            return false;
+                                        }
+                                        ;
+                                    };
+                                </script>
+                            {% endif %}
+                            <lb style="font-size: 8px;">：(Time: {{ task_item.date }}: {{ task_item.time }})</lb>
+
+                            <script>
+                                var clicked = false;
+                                document.getElementById("updateBtn{{ task_item.id}}").onclick = function () {
+                                    if (clicked) {
+                                        document.getElementById('saveBtn{{ task_item.id }}').click()
+                                        clicked = false;
+                                    } else {
+                                        document.getElementById("category{{ task_item.id }}").removeAttribute('disabled')
+                                        var yesterday = document.getElementById("yesterday{{ task_item.id}}")
+                                        yesterday.removeAttribute('disabled')
+                                        yesterday.style.background = "black";
+                                        yesterday.style.color = "white";
+                                        document.getElementById("category{{ task_item.id }}").style.background = "black";
+                                        document.getElementById("category{{ task_item.id }}").style.color = "white";
+                                        var button = document.getElementById("updateBtn{{ task_item.id}}")
+                                        button.value = "save";
+                                        button.style.background = "blue";
+                                        clicked = true;
+                                    }
+                                }
+                            </script>
+
+                            <button formaction="saveTask/{{ task_item.id }}" id="saveBtn{{ task_item.id }}"
+                                    style="visibility:hidden">
+                        </li>
+
+                   
+                {% endif %}
+            {% endfor %}
+
+        </form>
+        <br>
+    {% endfor %}
+  
     <form action="moveToTodo" method="post">
         {% csrf_token %}
 
         <input type="submit" value="CREATE TASK"
-               style="position: absolute;right:300px;top:400px; height:200px;width:200px; background-color: #bab2b5;
-                                border: 6px solid #ccc;
-                                color: white;
-                                padding: 20px;
-                                text-align: center;
-                                text-decoration: none;
-                                display: inline-block;
-                                position: fixed;
-                                font-size: 16px;
-                                margin: 4px -120px;
-                                border-radius: 500px">
+               style="position: absolute;right:300px;top:400px; height:200px;width:200px; background-color: #bab2b5;border: 6px solid #ccc;color: white;padding: 20px;text-align: center;text-decoration: none;display: inline-block;position: fixed;font-size: 16px;margin: 4px -235px;border-radius: 500px">
     </form>
-
+ 
     </body>
     </html>
 {% else %}
