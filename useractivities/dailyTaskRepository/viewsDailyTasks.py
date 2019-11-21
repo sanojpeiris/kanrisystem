@@ -23,7 +23,8 @@ def moveToTodo(request):
         'message', flat=True).distinct()
     spec_user_list = TaskMessage.objects.values_list(
         'spec_user', flat=True).distinct()
-
+    visible_list = TaskMessage.objects.values_list(
+        'visible', flat=True).filter(visible=True)
     cursoruser=connection.cursor()
     cursoruser.execute("select distinct edit_username from useractivities_tasktable where date=DATE('now') and edit_username=%s",[username])
     today_user=cursoruser.fetchone()
@@ -41,9 +42,11 @@ def moveToTodo(request):
 
     messages=TaskMessage.objects.all()
     messages_2=TaskMessage.objects.all().filter(visible=True)
-    visible=TaskMessage.objects.values_list(
-        'visible', flat=True).distinct()
-    print("visibleis ",visible)
+    # visible=TaskMessage.objects.values_list(
+    #     'visible', flat=True)
+    # print("visibleis ",visible)
+    print("visibleT ",visible_list)
+    print("msg_true ",messages_2)
 
     row_category_today_old = cursor1.fetchall()
     row_today_old = cursor2.fetchall()
@@ -58,12 +61,13 @@ def moveToTodo(request):
                                          "yesterday_con": row_today,
                                          "messages":messages,
                                          "messages_2":messages_2,
-                                         "visibility":visible,
+                                        #  "visibility":visible,
                                          "allmessages":allmessages,
                                          "is_checked":checked,
                                          "today_user":today_user,
                                          "user_list":user_list,
                                          "spec_user_list":spec_user_list,
+                                         "visible_list":visible_list,
                                          })
 
 
@@ -86,6 +90,7 @@ def taskView(request):
     deletebtnother=TaskTable.objects.filter(date=dateToday,edit_username=username,tasktype='4その他').count()
     
     messages=TaskMessage.objects.all().filter(visible=True)
+    alert_notification=TaskMessage.objects.all().filter(visible=True,notification=True)
     return render(request, "home.html", {
                                         "all_items_yesterday": all_todo_items_yesterday,
                                         "all_items_today": all_todo_items_today,
@@ -100,6 +105,7 @@ def taskView(request):
                                          "deletebtncount_other":deletebtnother,
                                          "user_today":user_today,
                                          "messages":messages,
+                                         "alert":alert_notification,
                                          })
 
 
@@ -130,6 +136,7 @@ def saveState(request,message_id):
         visible = True
         makevisible=TaskMessage.objects.get(id=message_id)
         makevisible.visible = visible
+        makevisible.notification = True
         makevisible.spec_user = spec_user
         makevisible.save()
         return redirect("moveToTodo")
@@ -137,9 +144,16 @@ def saveState(request,message_id):
         invisible = False
         makeinvisible=TaskMessage.objects.get(id=message_id)
         makeinvisible.visible = invisible
+        makeinvisible.notification = True
         makeinvisible.spec_user = spec_user
         makeinvisible.save()
         return redirect("moveToTodo")
+
+def notification_is(request,message_id):
+    makevisible=TaskMessage.objects.get(id=message_id)
+    makevisible.notification = False
+    makevisible.save()
+    return redirect("moveToTodo")
 
 def deleteState(request, message_id):
     cursor_delete = connection.cursor()

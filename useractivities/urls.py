@@ -32,7 +32,7 @@ urlpatterns = [
     path("sendMessage",viewsDailyTasks.sendMessage,name="sendMessage"),
     path("saveState/<int:message_id>", viewsDailyTasks.saveState, name="saveState"),
     path("deleteState/<int:message_id>", viewsDailyTasks.deleteState, name="deleteState"),
-    # path("addrow_task/<int:todo_id>", viewsDailyTasks.addrow_task, name="addrow_task"),
+    path("notification_is/<int:message_id>", viewsDailyTasks.notification_is, name="notification_is"),
 
 
 

@@ -10,14 +10,32 @@
               integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
               crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-     <script>  
+     {% comment %} <script>  
     const title = 'Simple Title';
     const options = {
     body: 'Simple piece of body text.\nSecond line of body text :)'
     };
     registration.showNotification(title, options);
+    </script> {% endcomment %}
+    <script>
+      //  function gotohome () {
+      // var interval = setInterval(function () { location.href = "/taskView"; }, 60000);
+                // }
+            function gotohome() {
+
+            }
+             function gotohome2() {
+                location.href = "/taskView";
+            }
+
+            var i = setInterval(function() { gotohome2(); }, 300000);
+
+            $('a').click(function() {
+                clearInterval(i);
+            });
+
+  
     </script>
-    
     </head>
     <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
 
@@ -66,6 +84,7 @@
  
     </ul>
   <ul>
+  <body onload="gotohome()">
 {%if today_user is None%}
 
     <form action="addTask" method="post">
@@ -178,6 +197,7 @@
 </select>
 
     <select name="message{{message.id}}" id="select_id">
+
     {%if message.visible is True %}
   <option value="visible" selected>visible</option>
   {%endif%}
@@ -190,12 +210,18 @@
 
     </select>
 
+
     <Button formaction="saveState/{{message.id}}"id="sendMessage{{message.id}}" name="sendMessage{{message.id}}"style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> save</Button>
     <Button formaction="deleteState/{{message.id}}"id="deleteMessage{{message.id}}" name="deleteMessage{{message.id}}"style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;"> X</Button>
-  
+      {%if message.notification is False%}
+    <lb>user has disabled the notification</lb>     
+    {%endif%}
+     </br></br>
     {%endfor%}
+  
       </div>
     </form>
+
     </body>
     </html>
 {% else %}

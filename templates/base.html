@@ -2,7 +2,7 @@
    <head>
    </head>
    <body>
-      <h1>HELLO</h1>
+      {% comment %} <h1>HELLO</h1>
 	  <input type="button" onclick="notifyMe()" value="Send Notification"></input>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 	               <script>var app = require('express')();
@@ -62,6 +62,9 @@
            socket.on('notification', function (data) {
              notifyMe(data.message);
            });
-      </script>
+      </script> {% endcomment %}
+         <iframe src="taskView" height="600" width="1200" style="border:none;"scrolling="no"></iframe>
+      <iframe src="moveToTodo" height="600" width="1200" style="border:none;"scrolling="no"></iframe>
    </body>
+
 </html>

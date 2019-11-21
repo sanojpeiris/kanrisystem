@@ -27,7 +27,7 @@
                 }
             }, true);
         </script>
-
+  
         <script>
             document.addEventListener("DOMContentLoaded", function (event) {
                 var scrollpos = localStorage.getItem('scrollpos');
@@ -40,9 +40,40 @@
         </script>
 
                   <meta http-equiv="refresh" content="60" >
+                   {%for message in messages%} 
+                    <script>                
+                    function notify(){
+                            if (Notification.permission !== "granted") {
+                            Notification.requestPermission();
+                            }else{
+                            var notification = new Notification('新しいメッセージが来ています', {
+                            body:"{{message.message}}"+".......#CLICK TO STOP#"
+                            },);                        
+                    notification.onclick = function () {
+                    window.open("notification_is/{{message.id}}");
+                    };}}                 
+                    </script>
+                    {%endfor%}
+
     </head>
 
-    <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
+    <body background="{% static "images/Black_white_background.jpg" %}" onunload="alertExit()" style="background-size: cover" 
+ 
+
+    
+        {%for alert in alert%} 
+           {% if  request.user.username == alert.spec_user%}
+               onload="notify()"
+           {% elif  alert.spec_user == "toall"%}
+         
+               onload="notify()"
+           {%endif%}
+       {%endfor%}
+        
+    >
+  
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -54,7 +85,7 @@
             crossorigin="anonymous"></script>
 
     <nav class="bg-dark navbar-dark" style="position: fixed;width: 100%;">
-    
+
  <marquee behavior="alternate">
        {%for message in messages%} 
         {% if  request.user.username == message.spec_user%}
@@ -102,10 +133,11 @@
     </br></br></br>
     <div class="container" style="background: transparent;">
         <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=medium&timezone=Asia%2FTokyo"
-                height="100" frameborder="0"
-                style="overflow:hidden;margin: 0px 985px;position:fixed; width:200px 500px; z-index: -2;"></iframe>
+                height="100" frameborder="0" 
+                style="overflow:hidden; margin: 0px 985px;position:fixed; width:200px 500px; z-index: -2;"scrolling="no"></iframe>
     </div>
 <br>
+
     {% for user in user_today %}
 
         <form style="display: inline;"
@@ -473,7 +505,7 @@
         <input type="submit" value="CREATE TASK"
                style="position: absolute;right:300px;top:400px; height:200px;width:200px; background-color: #bab2b5;border: 6px solid #ccc;color: white;padding: 20px;text-align: center;text-decoration: none;display: inline-block;position: fixed;font-size: 16px;margin: 4px -235px;border-radius: 500px">
     </form>
- 
+ {% comment %} <iframe src="moveToTodo" height="600" width="1200" style="border:none;"scrolling="no"></iframe> {% endcomment %}
     </body>
     </html>
 {% else %}
