@@ -14,7 +14,7 @@ def moveToLogin(request):
 
 def moveToTodo(request):
     username = request.user.username
-    user_list=TaskTable.objects.values_list('edit_username',flat=True).distinct()
+    user_list = TaskTable.objects.values_list('edit_username', flat=True).distinct()
     dateToday = datetime.date.today()
     all_todo_items = TaskTable.objects.all()
     taskproject = TaskTable.objects.values_list(
@@ -25,11 +25,12 @@ def moveToTodo(request):
         'spec_user', flat=True).distinct()
     visible_list = TaskMessage.objects.values_list(
         'visible', flat=True).filter(visible=True)
-    cursoruser=connection.cursor()
+            
+    cursoruser = connection.cursor()
     cursoruser.execute("select distinct edit_username from useractivities_tasktable where date=DATE('now') and edit_username=%s",[username])
-    today_user=cursoruser.fetchone()
+    today_user = cursoruser.fetchone()
 
-    print("logged user-",today_user)
+    print("logged user-", today_user)
     cursor1 = connection.cursor()
     cursor2 = connection.cursor()
     cursor1.execute(

@@ -1,0 +1,54 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head></head>
+    <body onload="add_number()">
+ <form style="display: inline;"
+              method="post"
+              id="myform">
+            {% csrf_token %}
+<table >
+                    <thead>
+                    <tr style="text-align: center; color:blue;">
+                        <th>定時</th>
+                        <th>残業</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                   
+                        <tr>                         
+                            <td>                                                          
+                            <input type="time" name="teiji" id="teiji"  {%for yotei in yotei%}  value="{{yotei}}"{%endfor%}required>            
+                            </td>        
+
+                            <td>                                                          
+                            <input type="time" name="overtime" id="overtime" {%for overtime in overtime%}  value="{{overtime}}" {%endfor%}required>                           
+                            </td>
+                             <td>                                 
+
+                            {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
+                            <input type="text" id="txtresult" >    
+                            </td>
+                        </tr>                   
+                    </tbody>
+
+ </table>
+
+ <script>
+     function add_number() {
+
+            var first_number = parseInt(document.getElementById("teiji").value);
+            var second_number = parseInt(document.getElementById("overtime").value);
+            var result = first_number + second_number;
+
+            document.getElementById("txtresult").value = result;
+            //document.getElementById("txtresult").value = "Johnny Bravo";
+        }
+ </script>
+ <br>
+                      <Button formaction="saveKintai" id="save"
+                                        name="save"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save
+                                </Button>
+ </form>
+ <body>
+ </html>

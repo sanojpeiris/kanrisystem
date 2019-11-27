@@ -20,6 +20,24 @@ class TaskMessage(models.Model):
     notification=models.BooleanField(default=True)
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
+    objects = models.Manager()
 
-    # def __bool__(self):
-    #     return self.visible
+class Kintai(models.Model):
+    edit_username = models.TextField(null=True) 
+    type = models.TextField(null=True)
+    teiji = models.TextField(null=True)
+    overtime = models.TextField(null=True)
+    result=models.TextField(null=True)
+    Date = models.DateField(null=True, blank=False, auto_now_add=True)
+    Month = models.CharField(max_length=100, null=True, blank=False) 
+    time = models.TimeField(auto_now_add=True)
+
+
+class Btrip(models.Model):
+    edit_username = models.TextField(null=True) 
+    type = models.TextField(null=True)
+    B_money = models.TextField(null=True)
+    gout = models.TextField(null=True)
+    Date = models.DateField(null=True, blank=False)
+    Month = models.CharField(max_length=100, null=True, blank=False) 
+    time = models.TimeField(auto_now_add=True)

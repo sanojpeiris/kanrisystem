@@ -2,6 +2,7 @@ from django.urls import path
 
 from useractivities.dailyTaskRepository import viewsDailyTasks
 from useractivities.userRepository import viewsUser
+from useractivities.jinkenhiRepository import viewsJinkenhi
 
 urlpatterns = [
     path("", viewsDailyTasks.moveToLogin, name="login"),
@@ -23,6 +24,8 @@ urlpatterns = [
     path("deleteTask_id/<int:todo_id>", viewsDailyTasks.deleteTask_id, name="deleteTask_id"),
     path("back", viewsDailyTasks.back, name="back"),
     path("moveToUpdatePassword", viewsUser.moveToUpdatePassword, name="moveToUpdatePassword"),
+    path("moveToJinkenhi", viewsJinkenhi.moveToJinkenhi, name="moveToJinkenhi"),
+    path("moveToKintai", viewsJinkenhi.moveToKintai, name="moveToKintai"),
     path("updatePassword", viewsUser.updatePassword, name="updatePassword"),
     path("closeWindow", viewsUser.closeWindow, name="closeWindow"),
     path("search", viewsDailyTasks.search, name="search"),
@@ -33,6 +36,7 @@ urlpatterns = [
     path("saveState/<int:message_id>", viewsDailyTasks.saveState, name="saveState"),
     path("deleteState/<int:message_id>", viewsDailyTasks.deleteState, name="deleteState"),
     path("notification_is/<int:message_id>", viewsDailyTasks.notification_is, name="notification_is"),
+    path("saveKintai", viewsJinkenhi.saveKintai, name="saveKintai"),
 
 
 
