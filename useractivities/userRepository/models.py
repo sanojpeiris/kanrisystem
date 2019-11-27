@@ -27,10 +27,10 @@ class Kintai(models.Model):
     type = models.TextField(null=True)
     teiji = models.TextField(null=True)
     overtime = models.TextField(null=True)
-    result=models.TextField(null=True)
     Date = models.DateField(null=True, blank=False, auto_now_add=True)
     Month = models.CharField(max_length=100, null=True, blank=False) 
     time = models.TimeField(auto_now_add=True)
+    done=models.BooleanField(default=False)
 
 
 class Btrip(models.Model):
@@ -38,6 +38,7 @@ class Btrip(models.Model):
     type = models.TextField(null=True)
     B_money = models.TextField(null=True)
     gout = models.TextField(null=True)
-    Date = models.DateField(null=True, blank=False)
+    Date = models.DateField(null=True, blank=False, auto_now_add=True)
     Month = models.CharField(max_length=100, null=True, blank=False) 
     time = models.TimeField(auto_now_add=True)
+    done=models.BooleanField(default=False)

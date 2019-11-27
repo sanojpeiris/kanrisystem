@@ -3,10 +3,11 @@
     <head></head>
     <body onload="add_number_yotei(),add_number_jisseki()">
     
-<!-- 実績入力-->
+
+ <!-- 実績入力-->
   
                           
-<label style="font-size:30px; ">勤怠情報</label><br><br><br>
+<label style="font-size:30px; ">出張情報</label><br><br><br>
  <form style ='float: left;'
               method="post"
               id="myform">
@@ -15,8 +16,8 @@
 <table >
                     <thead>
                     <tr style="text-align: center; color:blue;">
-                        <th>定時</th>
-                        <th>残業</th>
+                        <th>出張費</th>
+                        <th>外出費</th>
                         <th>合計</th>
                     </tr>
                     </thead>
@@ -24,16 +25,16 @@
                    
                         <tr>                         
                             <td>                                                          
-                            H:M<input type="number" step="0.01" name="teiji" id="teiji_jisseki"  {%for jisseki in jisseki%}  value="{{jisseki}}"{%endfor%}required>            
+                            ￥<input type="number" name="teiji" id="teiji_jisseki"  {%for jisseki in jisseki%}  value="{{jisseki}}"{%endfor%}required>            
                             </td>        
 
                             <td>                                                          
-                            H:M<input type="number" step="0.01" name="overtime" id="overtime_jisseki" {%for overtime_jisseki in overtime_jisseki%}  value="{{overtime_jisseki}}" {%endfor%}required>                           
+                            ￥<input type="number" name="overtime" id="overtime_jisseki" {%for overtime_jisseki in overtime_jisseki%}  value="{{overtime_jisseki}}" {%endfor%}required>                           
                             </td>
                              <td>                                 
 
                             {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
-                            <label id="txtresult_jisseki" >    
+                            ￥<label id="txtresult_jisseki" >    
                             </td>
                         </tr>                   
                     </tbody>
@@ -53,29 +54,32 @@
  </script> 
  <br>
   {%if not jisseki %}
-                      <Button formaction="saveKintai/jisseki" id="save_jisseki"
+                      <Button formaction="saveshucchou/jisseki" id="save_jisseki"
                                         name="save"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save
                                 </Button>
                                 {%endif%}
-                      <Button formaction="deleteKintai/jisseki" id="delete"
+                      <Button formaction="deleteshucchou/jisseki" id="delete"
                                         name="delete"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > clear
                                 </Button>
                             
  </form>
-<!-- 予定入力-->
+
+ <!-- 予定入力-->
+
+
 
  <form style ='float: left; padding-left: 100px;'
-              method="post"
+ method="post"
               id="myform">
             {% csrf_token %}
             <label>予定</label><br><br>
 <table >
                     <thead>
                     <tr style="text-align: center; color:blue;">
-                        <th>定時</th>
-                        <th>残業</th>
+                        <th>出張費</th>
+                        <th>外出費</th>
                         <th>合計</th>
                     </tr>
                     </thead>
@@ -83,16 +87,16 @@
                    
                         <tr>                         
                             <td>                                                          
-                            H:M<input type="number" step="0.01" name="teiji" id="teiji_yotei"  {%for yotei in yotei%}  value="{{yotei}}"{%endfor%}required>            
+                            ￥<input type="number" name="teiji" id="teiji_yotei"  {%for yotei in yotei%}  value="{{yotei}}"{%endfor%}required>            
                             </td>        
 
                             <td>                                                          
-                            H:M<input type="number" step="0.01" name="overtime" id="overtime_yotei" {%for overtime_yotei in overtime_yotei%}  value="{{overtime_yotei}}" {%endfor%}required>                           
+                            ￥<input type="number" name="overtime" id="overtime_yotei" {%for overtime_yotei in overtime_yotei%}  value="{{overtime_yotei}}" {%endfor%}required>                           
                             </td>
                              <td>                                 
 
                             {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
-                            <label id="txtresult_yotei" > 
+                            ￥<label id="txtresult_yotei" > 
                             </td>
                         </tr>                   
                     </tbody>
@@ -113,17 +117,15 @@
  <br>
 
  {%if not yotei %}
-                      <Button formaction="saveKintai/yotei" id="save_yotei"
+                      <Button formaction="saveshucchou/yotei" id="save_yotei"
                                         name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save
                                 </Button>
                                 {%endif%}
-                      <Button formaction="deleteKintai/yotei" id="delete"
+                      <Button formaction="deleteshucchou/yotei" id="delete"
                                         name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > clear
                                 </Button>
  </form>
-
- 
  <body>
  </html>

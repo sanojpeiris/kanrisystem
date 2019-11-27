@@ -25,7 +25,9 @@ urlpatterns = [
     path("back", viewsDailyTasks.back, name="back"),
     path("moveToUpdatePassword", viewsUser.moveToUpdatePassword, name="moveToUpdatePassword"),
     path("moveToJinkenhi", viewsJinkenhi.moveToJinkenhi, name="moveToJinkenhi"),
+    path("moveToshucchou", viewsJinkenhi.moveToshucchou, name="moveToshucchou"),
     path("moveToKintai", viewsJinkenhi.moveToKintai, name="moveToKintai"),
+    path("moveToConfirm", viewsJinkenhi.moveToConfirm, name="moveToConfirm"),
     path("updatePassword", viewsUser.updatePassword, name="updatePassword"),
     path("closeWindow", viewsUser.closeWindow, name="closeWindow"),
     path("search", viewsDailyTasks.search, name="search"),
@@ -36,7 +38,14 @@ urlpatterns = [
     path("saveState/<int:message_id>", viewsDailyTasks.saveState, name="saveState"),
     path("deleteState/<int:message_id>", viewsDailyTasks.deleteState, name="deleteState"),
     path("notification_is/<int:message_id>", viewsDailyTasks.notification_is, name="notification_is"),
-    path("saveKintai", viewsJinkenhi.saveKintai, name="saveKintai"),
+    path("saveKintai/yotei", viewsJinkenhi.saveKintai_yotei, name="saveKintai_yotei"),
+    path("deleteKintai/yotei", viewsJinkenhi.deleteKintai_yotei, name="deleteKintai_yotei"),
+    path("saveKintai/jisseki", viewsJinkenhi.saveKintai_jisseki, name="saveKintai_yotei"),
+    path("deleteKintai/jisseki", viewsJinkenhi.deleteKintai_jisseki, name="deleteKintai_yotei"),
+    path("saveshucchou/yotei", viewsJinkenhi.saveshucchou_yotei, name="saveshucchou_yotei"),
+    path("deleteshucchou/yotei", viewsJinkenhi.deleteshucchou_yotei, name="deleteshucchou_yotei"),
+    path("saveshucchou/jisseki", viewsJinkenhi.saveshucchou_jisseki, name="saveshucchou_yotei"),
+    path("deleteshucchou/jisseki", viewsJinkenhi.deleteshucchou_jisseki, name="deleteshucchou_yotei"),
 
 
 

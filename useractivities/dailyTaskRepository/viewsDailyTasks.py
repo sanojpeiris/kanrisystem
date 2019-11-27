@@ -154,7 +154,7 @@ def notification_is(request,message_id):
     makevisible=TaskMessage.objects.get(id=message_id)
     makevisible.notification = False
     makevisible.save()
-    return redirect("moveToTodo")
+    return redirect("moveToJinkenhi")
 
 def deleteState(request, message_id):
     cursor_delete = connection.cursor()

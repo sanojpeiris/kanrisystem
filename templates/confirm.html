@@ -1,0 +1,54 @@
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>        <link rel="stylesheet" type="text/css" href="{% static "css/mystyle.css" %}"></head>
+    <body onload="add_number_yotei(),add_number_jisseki()">
+    
+<!-- 実績入力-->
+  
+                          
+
+ <form style ='float: left;'
+              method="post"
+              id="myform">
+            {% csrf_token %}
+<br><br>
+<table >
+                    <thead>
+                    <tr style="text-align: center; color:blue;">
+                        <th>ユーザー</th>
+                        <th>月</th>
+                        <th>タイプ</th>
+                        <th>勤怠入力状態</th>
+                        <th>Button</th>      
+                    </tr>
+                    </thead>
+                    
+                    <tbody> 
+                         
+                         {% comment %}                       {% endcomment %}
+                        <tr> 
+                        {%for user_list in user_list%}
+                            <td>{{user_list}}</td>
+                            {% for kintai_all in kintai_all%} 
+                            {%if kintai_all.edit_username == user_list%}  
+                            <td>{{kintai_all.Month}}</td>
+                            <td>{{kintai_all.type}}</td>
+                            <td>{%if kintai_all.done is True %}完了{%endif%}</td> 
+                            
+                        {%endif%}
+                        {%endfor%}  
+
+                         <td><Button formaction="kintai_kakunin" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save</Button></td>                                                    
+                        </tr>
+                        {%endfor%}
+                                                         
+                    </tbody>
+                   
+
+ </table>
+ </form>
+
+ 
+ <body>
+ </html>
