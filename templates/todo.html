@@ -17,7 +17,9 @@
     };
     registration.showNotification(title, options);
     </script> {% endcomment %}
-    <script>
+
+
+    {% comment %} <script>
       //  function gotohome () {
       // var interval = setInterval(function () { location.href = "/taskView"; }, 60000);
                 // }
@@ -35,7 +37,9 @@
             });
 
   
-    </script>
+    </script> {% endcomment %}
+
+    
     </head>
     <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
 
@@ -90,7 +94,8 @@
  
     </ul>
   <ul>
-  <body onload="gotohome()">
+  {% comment %} <body onload="gotohome()"> {% endcomment %}
+    <body>
 {%if today_user is None%}
 
     <form action="addTask" method="post">
@@ -183,7 +188,7 @@
               id="myformsave">
             {% csrf_token %}
 
-    <div style="position: absolute;right:110px;top:250px; outline: 2px dashed black; ">
+    <div style="position: fixed;right:110px;top:250px; outline: 2px dashed black; ">
         {%for message in messages%}
     <li><lb  style="color:#444422;">{{message.message}} </lb></li>
 

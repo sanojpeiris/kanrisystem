@@ -31,6 +31,7 @@ class Kintai(models.Model):
     Month = models.CharField(max_length=100, null=True, blank=False) 
     time = models.TimeField(auto_now_add=True)
     done=models.BooleanField(default=False)
+    kakunin=models.BooleanField(default=False)
 
 
 class Btrip(models.Model):
@@ -42,3 +43,4 @@ class Btrip(models.Model):
     Month = models.CharField(max_length=100, null=True, blank=False) 
     time = models.TimeField(auto_now_add=True)
     done=models.BooleanField(default=False)
+    kakunin=models.BooleanField(default=False)

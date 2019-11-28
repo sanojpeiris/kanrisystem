@@ -21,17 +21,20 @@ def moveToKintai(request):
     dateToday = datetime.date.today()
     month = dateToday.strftime('%B')
     # print("nextmonth=",month)
-    value_yotei=Kintai.objects.values_list('teiji',flat=True).filter(Date=dateToday,edit_username=username, type="予定").reverse()
-    value_overtime_yotei=Kintai.objects.values_list('overtime',flat=True).filter(Date=dateToday,edit_username=username, type="予定")
-    value_jisseki=Kintai.objects.values_list('teiji',flat=True).filter(Date=dateToday,edit_username=username, type="実績").reverse()
-    value_overtime_jisseki=Kintai.objects.values_list('overtime',flat=True).filter(Date=dateToday,edit_username=username, type="実績")
-
+    value_yotei=Kintai.objects.values_list('teiji',flat=True).filter(Date=dateToday,edit_username=username, type="予定", ).reverse()
+    value_overtime_yotei=Kintai.objects.values_list('overtime',flat=True).filter(Date=dateToday,edit_username=username, type="予定",  )
+    value_jisseki=Kintai.objects.values_list('teiji',flat=True).filter(Date=dateToday,edit_username=username, type="実績",).reverse()
+    value_overtime_jisseki=Kintai.objects.values_list('overtime',flat=True).filter(Date=dateToday,edit_username=username, type="実績", )
+    value_yotei_kakunin=Kintai.objects.values_list('kakunin',flat=True).filter(Date=dateToday,edit_username=username, type="予定", )
+    value_jisseki_kakunin=Kintai.objects.values_list('kakunin',flat=True).filter(Date=dateToday,edit_username=username, type="実績", )
+    print("kakunin-",value_yotei_kakunin)
 
     return render(request, "kintai.html",{"yotei":value_yotei,
                                         "overtime_yotei":value_overtime_yotei,
                                         "jisseki":value_jisseki,
                                         "overtime_jisseki":value_overtime_jisseki,
-
+                                        "yotei_kakunin":value_yotei_kakunin,
+                                        "jisseki_kakunin":value_jisseki_kakunin,
                                         })
 
 def saveKintai_yotei(request):
@@ -86,6 +89,18 @@ def deleteKintai_jisseki(request):
 
     return redirect("moveToKintai")
 
+def kintai_kakunin(request,kakunin_id):
+    is_kakunin_ok=Kintai.objects.get(id=kakunin_id)
+    is_kakunin_ok.kakunin = True
+    is_kakunin_ok.save()
+    return redirect("moveToConfirm")
+
+def kintai_sashimodoshi(request,kakunin_id):
+    is_kakunin_ok=Kintai.objects.get(id=kakunin_id)
+    is_kakunin_ok.kakunin = False
+    is_kakunin_ok.save()
+    return redirect("moveToConfirm")
+
 #〜〜〜〜〜〜〜出張情報
 
 def moveToshucchou(request):
@@ -96,12 +111,15 @@ def moveToshucchou(request):
     value_overtime_yotei=Btrip.objects.values_list('gout',flat=True).filter(Date=dateToday,edit_username=username, type="予定")
     value_jisseki=Btrip.objects.values_list('B_money',flat=True).filter(Date=dateToday,edit_username=username, type="実績").reverse()
     value_overtime_jisseki=Btrip.objects.values_list('gout',flat=True).filter(Date=dateToday,edit_username=username, type="実績")
+    value_yotei_kakunin=Btrip.objects.values_list('kakunin',flat=True).filter(Date=dateToday,edit_username=username, type="予定", )
+    value_jisseki_kakunin=Btrip.objects.values_list('kakunin',flat=True).filter(Date=dateToday,edit_username=username, type="実績", )
 
     return render(request, "shucchou.html",{"yotei":value_yotei,
                                         "overtime_yotei":value_overtime_yotei,
                                         "jisseki":value_jisseki,
                                         "overtime_jisseki":value_overtime_jisseki,
-
+                                        "yotei_kakunin":value_yotei_kakunin,
+                                        "jisseki_kakunin":value_jisseki_kakunin,
                                         })
 
 def saveshucchou_yotei(request):
@@ -164,13 +182,34 @@ def moveToConfirm(request):
     kintai_shucchou=Kintai.objects.all().filter(type="実績")
     shucchou_yotei=Btrip.objects.all().filter(type="予定")
     shucchou_jisseki=Btrip.objects.all().filter(type="実績")
+    kintai_all = Kintai.objects.all()
+    shucchou_all = Btrip.objects.all()
     user_list = User.objects.values_list('username', flat=True).distinct()
     print("userlist-",user_list)
-    kintai_all = Kintai.objects.all()
+
+
     return render(request, "confirm.html",{"kintai_yotei":kintai_yotei,
                                            "kintai_shucchou":kintai_shucchou,  
                                            "shucchou_yotei":shucchou_yotei,
                                            "shucchou_jisseki":shucchou_jisseki,
                                            "user_list":user_list,
                                            "kintai_all":kintai_all,
+                                           "shucchou_all":shucchou_all,
     })
+
+def shucchou_kakunin(request,kakunin_id):
+    is_kakunin_ok=Btrip.objects.get(id=kakunin_id)
+    is_kakunin_ok.kakunin = True
+    is_kakunin_ok.save()
+    return redirect("moveToConfirm")
+
+def shucchou_sashimodoshi(request,kakunin_id):
+    is_kakunin_ok=Btrip.objects.get(id=kakunin_id)
+    is_kakunin_ok.kakunin = False
+    is_kakunin_ok.save()
+    return redirect("moveToConfirm")
+
+def confirm_all(request):
+    confirm_cursor=connection.cursor()
+    confirm_cursor.execute('UPDATE useractivities_kintai set kakunin=True;')
+    return redirect("moveToConfirm")

@@ -52,6 +52,9 @@
         }
  </script> 
  <br>
+  {%for jisseki_kakunin in jisseki_kakunin%}
+            {%if jisseki_kakunin is False%}   
+                  
   {%if not jisseki %}
                       <Button formaction="saveKintai/jisseki" id="save_jisseki"
                                         name="save"
@@ -62,7 +65,21 @@
                                         name="delete"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > clear
                                 </Button>
-                            
+                                                                {%endif%}  
+            
+{%endfor%} 
+      {%if not jisseki%}                                                 
+                      <Button formaction="saveKintai/jisseki" id="save_yotei"
+                                        name="save"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
+                                </Button>
+                    
+                      <Button formaction="deleteKintai/jisseki" id="delete"
+                                        name="delete"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
+                                </Button>
+                                
+         {%endif%}                          
  </form>
 <!-- 予定入力-->
 
@@ -111,17 +128,48 @@
         }
  </script>
  <br>
-
- {%if not yotei %}
+ {%for yotei_kakunin in yotei_kakunin%}
+            {%if yotei_kakunin is False%}   
+                  {%if not yotei%}         
                       <Button formaction="saveKintai/yotei" id="save_yotei"
                                         name="save"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
                                 </Button>
-                                {%endif%}
+                    {%endif%}                
                       <Button formaction="deleteKintai/yotei" id="delete"
                                         name="delete"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
                                 </Button>
+                             
+                                {%endif%}  
+            
+{%endfor%} 
+   {%if not yotei%}                                                 
+                      <Button formaction="saveKintai/yotei" id="save_yotei"
+                                        name="save"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
+                                </Button>
+                    
+                      <Button formaction="deleteKintai/yotei" id="delete"
+                                        name="delete"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
+                                </Button>
+                                
+         {%endif%}       
+
+
+  {% comment %} {%if yotei == none%}  
+<Button formaction="saveKintai/yotei" id="save_yotei"
+                                        name="save"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
+                                </Button>
+ {%endif%}                         {% endcomment %}
+                      {% comment %} <Button formaction="deleteKintai/yotei" id="delete"
+                                        name="delete"
+                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
+                                </Button> {% endcomment %}
+                                    
+
  </form>
 
  

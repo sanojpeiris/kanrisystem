@@ -46,7 +46,11 @@ urlpatterns = [
     path("deleteshucchou/yotei", viewsJinkenhi.deleteshucchou_yotei, name="deleteshucchou_yotei"),
     path("saveshucchou/jisseki", viewsJinkenhi.saveshucchou_jisseki, name="saveshucchou_yotei"),
     path("deleteshucchou/jisseki", viewsJinkenhi.deleteshucchou_jisseki, name="deleteshucchou_yotei"),
-
+    path("kintai_kakunin/<int:kakunin_id>", viewsJinkenhi.kintai_kakunin, name="kintai_kakunin"),
+    path("kintai_sashimodoshi/<int:kakunin_id>", viewsJinkenhi.kintai_sashimodoshi, name="kintai_sashimodoshi"),
+    path("shucchou_kakunin/<int:kakunin_id>", viewsJinkenhi.shucchou_kakunin, name="shucchou_kakunin"),
+    path("shucchou_sashimodoshi/<int:kakunin_id>", viewsJinkenhi.shucchou_sashimodoshi, name="shucchou_sashimodoshi"),
+    path("confirm_all", viewsJinkenhi.confirm_all, name="confirm_all"),
 
 
 

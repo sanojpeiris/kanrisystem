@@ -4,7 +4,7 @@
     <head>        <link rel="stylesheet" type="text/css" href="{% static "css/mystyle.css" %}"></head>
     <body onload="add_number_yotei(),add_number_jisseki()">
     
-<!-- 実績入力-->
+<!-- 勤怠情報-->
   
                           
 
@@ -13,6 +13,7 @@
               id="myform">
             {% csrf_token %}
 <br><br>
+<Button formaction="confirm_all" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
 <table >
                     <thead>
                     <tr style="text-align: center; color:blue;">
@@ -22,33 +23,71 @@
                         <th>勤怠入力状態</th>
                         <th>Button</th>      
                     </tr>
-                    </thead>
-                    
-                    <tbody> 
-                         
-                         {% comment %}                       {% endcomment %}
-                        <tr> 
-                        {%for user_list in user_list%}
+                    </thead>                   
+                    <tbody>                         
+                    {%for user_list in user_list%}
+                        {% for kintai_all in kintai_all%} 
+                            {%if kintai_all.edit_username == user_list%} 
+                        <tr>                          
                             <td>{{user_list}}</td>
-                            {% for kintai_all in kintai_all%} 
-                            {%if kintai_all.edit_username == user_list%}  
                             <td>{{kintai_all.Month}}</td>
                             <td>{{kintai_all.type}}</td>
                             <td>{%if kintai_all.done is True %}完了{%endif%}</td> 
-                            
-                        {%endif%}
-                        {%endfor%}  
-
-                         <td><Button formaction="kintai_kakunin" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save</Button></td>                                                    
+                            {%if kintai_all.kakunin is not True%}
+                            <td><Button formaction="kintai_kakunin/{{kintai_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > confirm</Button></td> 
+                            {%endif%}
+                            {%if kintai_all.kakunin is True%}
+                            <td><Button formaction="kintai_sashimodoshi/{{kintai_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #ffa690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > SendBack</Button></td> 
+                            {%endif%}                                                                                                  
                         </tr>
-                        {%endfor%}
-                                                         
+                            {%endif%}  
+                        {%endfor%}  
+                    {%endfor%}                                                        
                     </tbody>
-                   
-
  </table>
  </form>
 
+<!-- 出張情報-->
  
+
+<form style ='float: left;'
+              method="post"
+              id="myform">
+            {% csrf_token %}
+<br><br>
+<table >
+                    <thead>
+                    
+                    <tr style="text-align: center; color:blue;">
+                        <th>ユーザー</th>
+                        <th>月</th>
+                        <th>タイプ</th>
+                        <th>出張入力状態</th>
+                        <th>Button</th>      
+                    </tr>
+                    </thead>                   
+                    <tbody>                         
+                    {%for user_list in user_list%}
+                        {% for shucchou_all in shucchou_all%} 
+                            {%if shucchou_all.edit_username == user_list%} 
+                        <tr>                          
+                            <td>{{user_list}}</td>
+                            <td>{{shucchou_all.Month}}</td>
+                            <td>{{shucchou_all.type}}</td>
+                            <td>{%if shucchou_all.done is True %}完了{%endif%}</td> 
+                            {%if shucchou_all.kakunin is not True%}
+                            <td><Button formaction="shucchou_kakunin/{{shucchou_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > confirm</Button></td> 
+                            {%endif%}
+                            {%if shucchou_all.kakunin is True%}
+                            <td><Button formaction="shucchou_sashimodoshi/{{shucchou_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #ffa690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > SendBack</Button></td> 
+                            {%endif%}                                                                                                  
+                        </tr>
+                            {%endif%}  
+                        {%endfor%}  
+                    {%endfor%}                                                        
+                    </tbody>
+ </table>
+ </form>
+
  <body>
  </html>
