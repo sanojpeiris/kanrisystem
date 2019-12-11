@@ -2,14 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38d2a9a2-de82-4765-9584-d7372dfb72ec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/manage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/mystyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/history.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/jinkenhi.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/jinkenhi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kintai.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kintai.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/search/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search/user_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/todo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/shucchou.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shucchou.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/todo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/updatePassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/updatePassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/updateUser.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/dailyTaskRepository/viewsDailyTasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/useractivities/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/jinkenhiRepository/viewsJinkenhi.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/jinkenhiRepository/viewsJinkenhi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/useractivities/mydatabase" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/mydatabase" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useractivities/userRepository/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/userRepository/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/useractivities/userRepository/viewsUser.py" beforeDir="false" afterPath="$PROJECT_DIR$/useractivities/userRepository/viewsUser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -229,6 +241,9 @@
       <workItem from="1572496533896" duration="443000" />
       <workItem from="1573101413028" duration="77000" />
       <workItem from="1573186215069" duration="120000" />
+      <workItem from="1575964610165" duration="115000" />
+      <workItem from="1575964743386" duration="115000" />
+      <workItem from="1575964879941" duration="1001000" />
     </task>
     <servers />
   </component>
@@ -247,16 +262,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/search/user_list.html</url>
-          <line>78</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -1,176 +1,177 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head></head>
-    <body onload="add_number_yotei(),add_number_jisseki()">
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        function add_number() {
+            {%if today == lastday or today == lastday_sec or today == lastday_third%}
+                var first_number_yotei = parseFloat(document.getElementById("overtime_yotei").value);
+                var second_number_yotei = parseFloat(document.getElementById("teiji_yotei").value);
+                var result_yotei = first_number_yotei + second_number_yotei;
+                document.getElementById("txtresult_yotei").innerHTML = result_yotei;
+            {%else%}
+                var first_number_jisseki = parseFloat(document.getElementById("overtime_jisseki").value);
+                var second_number_jisseki = parseFloat(document.getElementById("teiji_jisseki").value);
+                var result_jisseki = first_number_jisseki + second_number_jisseki;
+                document.getElementById("txtresult_jisseki").innerHTML = result_jisseki;
+            {%endif%}
+
+        }
+    </script>
+</head>
+<body onload="add_number()">
+
 <!-- 実績入力-->
 
 <label style="font-size:30px; ">勤怠情報</label><br><br><br>
-{%if today == firstday%}
 
-{% comment %} {%for visible in is_jisseki_visible%} {% endcomment %}
-{% comment %} {%if visible.is_visible is True%} {% endcomment %}
- <form style ='float: left;'
-              method="post"
-              id="myform">
-            {% csrf_token %}
-              <label>実績</label><br><br>
-<table >
-                    <thead>
-                    <tr style="text-align: center; color:blue;">
-                        <th>定時</th>
-                        <th>残業</th>
-                        <th>合計</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                   
-                        <tr>                         
-                            <td>                                                          
-                            H:M<input type="number" step="0.01" name="teiji" id="teiji_jisseki"  {%for jisseki in jisseki%}  value="{{jisseki}}"{%endfor%}required>            
-                            </td>        
 
-                            <td>                                                          
-                            H:M<input type="number" step="0.01" name="overtime" id="overtime_jisseki" {%for overtime_jisseki in overtime_jisseki%}  value="{{overtime_jisseki}}" {%endfor%}required>                           
-                            </td>
-                             <td>                                 
+{% if today == firstday or today == secondday or today == thirdday %}
 
-                            {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
-                            <label id="txtresult_jisseki" >    
-                            </td>
-                        </tr>                   
-                    </tbody>
 
- </table>
+    <form style='float: left;'
+          method="post"
+          id="myform">
+        {% csrf_token %}
+        <label>実績</label><br><br>
+        <table>
+            <thead>
+            <tr style="text-align: center; color:blue;">
+                <th>定時</th>
+                <th>残業</th>
+                <th>合計</th>
+            </tr>
+            </thead>
+            <tbody>
 
- <script>
-     function add_number_jisseki() {
+            <tr>
+                <td>
+                    H:M<input type="number" step="0.01" name="teiji" id="teiji_jisseki"  {% for jisseki in jisseki %}
+                              value="{{ jisseki }}"{% endfor %}required>
+                </td>
 
-            var first_number = parseFloat(document.getElementById("teiji_jisseki").value);
-            var second_number = parseFloat(document.getElementById("overtime_jisseki").value);
-            var result = first_number + second_number;
+                <td>
+                    H:M<input type="number" step="0.01" name="overtime" id="overtime_jisseki"
+                        {% for overtime_jisseki in overtime_jisseki %}
+                              value="{{ overtime_jisseki }}" {% endfor %}required>
+                </td>
+                <td>
 
-            document.getElementById("txtresult_jisseki").innerHTML = result;
-            //document.getElementById("txtresult").value = "Johnny Bravo";
-        }
- </script> 
- <br>
-  {%for jisseki_kakunin in jisseki_kakunin%}
-            {%if jisseki_kakunin is False%}   
-                  
-                    {%if not jisseki %}
-                      <Button formaction="saveKintai/jisseki" id="save_jisseki"
-                                        name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save
-                                </Button>
-                                {%endif%}
-                      <Button formaction="deleteKintai/jisseki" id="delete"
-                                        name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > clear
-                                </Button>
-                          {%endif%}  
-            
-{%endfor%} 
-      {%if not jisseki%}                                                 
-                      <Button formaction="saveKintai/jisseki" id="save_yotei"
-                                        name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
-                                </Button>
-                    
-                      <Button formaction="deleteKintai/jisseki" id="delete"
-                                        name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
-                                </Button>
-                                
-         {%endif%}                          
- </form>
-{%endif%}
-{% comment %} {%endfor%} {% endcomment %}
-{% comment %} {%endif%} {% endcomment %}
+                    {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
+                    H:M:-<label id="txtresult_jisseki"></label>
+                </td>
+            </tr>
+            </tbody>
 
-<!-- 予定入力-->
-{%if today == lastday%}
-{% comment %} {%for visible in is_yotei_visible%} {% endcomment %}
-{% comment %} {%if is_yotei_visible.is_visible is True%} {% endcomment %}
-<form style ='float: left; padding-left: 100px;'
-              method="post"
-              id="myform">
-            {% csrf_token %}
-            <label>予定</label><br><br>
-<table >
-                    <thead>
-                    <tr style="text-align: center; color:blue;">
-                        <th>定時</th>
-                        <th>残業</th>
-                        <th>合計</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                   
-                        <tr>                         
-                            <td>                                                          
-                            H:M<input type="number" step="0.01" name="teiji" id="teiji_yotei"  {%for yotei in yotei%}  value="{{yotei}}"{%endfor%}required>            
-                            </td>        
+        </table>
 
-                            <td>                                                          
-                            H:M<input type="number" step="0.01" name="overtime" id="overtime_yotei" {%for overtime_yotei in overtime_yotei%}  value="{{overtime_yotei}}" {%endfor%}required>                           
-                            </td>
-                             <td>                                 
+        <br>
+        {% for jisseki_kakunin in jisseki_kakunin %}
+            {% if jisseki_kakunin is False %}
+                {% if not jisseki %}
+                    <Button formaction="saveKintai/jisseki" id="save_jisseki"
+                            name="save"
+                            style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;">
+                        save
+                    </Button>
+                {% endif %}
+                <Button formaction="deleteKintai/jisseki" id="delete"
+                        name="delete"
+                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;">
+                    clear
+                </Button>
+            {% endif %}
+        {% endfor %}
+        {% if not jisseki %}
+            <Button formaction="saveKintai/jisseki" id="save_yotei"
+                    name="save"
+                    style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                save
+            </Button>
 
-                            {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
-                            <label id="txtresult_yotei" > 
-                            </td>
-                        </tr>                   
-                    </tbody>
+            <Button formaction="deleteKintai/jisseki" id="delete"
+                    name="delete"
+                    style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; ">
+                clear
+            </Button>
+        {% endif %}
+    </form>
 
- </table>
+{% endif %}
 
- <script>
-     function add_number_yotei() {
 
-            var first_number = parseFloat(document.getElementById("teiji_yotei").value);
-            var second_number = parseFloat(document.getElementById("overtime_yotei").value);
-            var result = first_number + second_number;
 
-            document.getElementById("txtresult_yotei").innerHTML = result;
-            //document.getElementById("txtresult").value = "Johnny Bravo";
-        }
- </script>
- <br>
- {%for yotei_kakunin in yotei_kakunin%}
-            {%if yotei_kakunin is False%}   
-                  {%if not yotei%}         
-                      <Button formaction="saveKintai/yotei" id="save_yotei"
-                                        name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
-                                </Button>
-                    {%endif%}                
-                      <Button formaction="deleteKintai/yotei" id="delete"
-                                        name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
-                                </Button>
-                             
-                                {%endif%}  
-            
-{%endfor%} 
-   {%if not yotei%}                                                 
-                      <Button formaction="saveKintai/yotei" id="save_yotei"
-                                        name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
-                                </Button>
-                    
-                      <Button formaction="deleteKintai/yotei" id="delete"
-                                        name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
-                                </Button>
-                                
-         {%endif%}                                          
+{% if today == lastday or today == lastday_sec or today == lastday_third %}
+    <form style='float: left;'
+          method="post"
+          id="myform">
+        {% csrf_token %}
+        <label>予定</label><br><br>
+        <table>
+            <thead>
+            <tr style="text-align: center; color:blue;">
+                <th>定時</th>
+                <th>残業</th>
+                <th>合計</th>
+            </tr>
+            </thead>
+            <tbody>
 
- </form>
- 
-{%endif%}
-{% comment %} {%endfor%} {% endcomment %}
-{% comment %} {%endif%} {% endcomment %}
+            <tr>
+                <td>
+                    H:M<input type="number" step="0.01" name="teiji" id="teiji_yotei"  {% for yotei in yotei %}
+                              value="{{ yotei }}"{% endfor %}required>
+                </td>
 
- <body>
- </html>
+                <td>
+                    H:M<input type="number" step="0.01" name="overtime" id="overtime_yotei"
+                        {% for overtime_yotei in overtime_yotei %}  value="{{ overtime_yotei }}" {% endfor %}required>
+                </td>
+                <td>
+
+                    {% comment %} <label id="txtresult" name="txtresult"></label> {% endcomment %}
+                    H:M:-<label id="txtresult_yotei"></label>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+        <br>
+        {% for yotei_kakunin in yotei_kakunin %}
+            {% if yotei_kakunin is False %}
+                {% if not yotei %}
+                    <Button formaction="saveKintai/yotei" id="save_yotei"
+                            name="save"
+                            style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                        save
+                    </Button>
+                {% endif %}
+                <Button formaction="deleteKintai/yotei" id="delete"
+                        name="delete"
+                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; ">
+                    clear
+                </Button>
+
+            {% endif %}
+
+        {% endfor %}
+        {% if not yotei %}
+            <Button formaction="saveKintai/yotei" id="save_yotei"
+                    name="save"
+                    style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                save
+            </Button>
+
+            <Button formaction="deleteKintai/yotei" id="delete"
+                    name="delete"
+                    style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; ">
+                clear
+            </Button>
+
+        {% endif %}
+
+    </form>
+{% endif %}
+
+</body>
+</html>

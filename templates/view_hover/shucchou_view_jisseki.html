@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+</head>
+<body onload="add_number_jisseki()">
+
+<label style="font-size:30px; ">出張情報</label><br><br><br>
+<form style='float: left;'
+      method="post"
+      id="myform">
+    {% csrf_token %}
+    <label>実績</label><br><br>
+    <table>
+        <thead>
+        <tr style="text-align: center; color:blue;">
+            <th>出張</th>
+            <th>外出</th>
+            <th>合計</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>
+                H:M<input type="number" step="0.01" name="teiji" id="teiji_jisseki"  {% for jisseki in jisseki %}
+                          value="{{ jisseki }}"{% endfor %}required>
+            </td>
+
+            <td>
+                H:M<input type="number" step="0.01" name="overtime" id="overtime_jisseki"
+                    {% for overtime_jisseki in overtime_jisseki %}  value="{{ overtime_jisseki }}" {% endfor %}required>
+            </td>
+            <td>
+                <label id="txtresult_jisseki">
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <script>
+        function add_number_jisseki() {
+
+            var first_number = parseFloat(document.getElementById("teiji_jisseki").value);
+            var second_number = parseFloat(document.getElementById("overtime_jisseki").value);
+            var result = first_number + second_number;
+
+            document.getElementById("txtresult_jisseki").innerHTML = result;
+        }
+    </script>
+    <br>
+
+</form>
+
+
+</body>
+</html>

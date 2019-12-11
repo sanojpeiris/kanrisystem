@@ -53,7 +53,12 @@ urlpatterns = [
     path("confirm_all_kintai", viewsJinkenhi.confirm_all_kintai, name="confirm_all_kintai"),
     path("confirm_all_shucchou", viewsJinkenhi.confirm_all_shucchou, name="confirm_all_shucchou"),
 
+    path("viewKintai_yotei/<str:username>", viewsJinkenhi.viewKintai_yotei, name="viewKintai_yotei"),
+    path("viewKintai_jisseki/<str:username>", viewsJinkenhi.viewKintai_jisseki, name="viewKintai_jisseki"),
+    path("viewShucchou_yotei/<str:username>", viewsJinkenhi.viewShucchou_yotei, name="viewShucchou_yotei"),
+    path("viewShucchou_jisseki/<str:username>", viewsJinkenhi.viewShucchou_jisseki, name="viewShucchou_jisseki"),
 
+    path("chat",viewsDailyTasks.chat,name="chat"),
 
 
 

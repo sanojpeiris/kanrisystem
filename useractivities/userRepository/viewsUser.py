@@ -3,6 +3,8 @@ from django.contrib.auth.models import auth, User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from useractivities.filters import TaskFilter
+
+
 # from useractivities.userRepository.models import TaskItem
 
 
@@ -162,6 +164,3 @@ def homeAlert(request):
 
 def moveToHome(request):
     return redirect("taskView")
-
-
-

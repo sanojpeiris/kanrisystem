@@ -1,0 +1,228 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+
+        <title>Bootstrap Tutorial Sample Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+              crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+    </head>
+    <body background="{% static "images/Black_white_background.jpg" %}" style="background-size: cover">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <nav class="bg-dark navbar-dark" style="position: fixed;width: 100%;">
+        <a href="taskView"> <img src="{% static "images/back.png" %}" alt="IMG" style="width:50px;height:50px;"
+                                 id="refreshBtn"></a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="moveToRegister">Create User</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="moveToUpdateUser">Edit User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="moveToJinkenhi">jinkenhi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Log Out</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <br><br><br>
+    <div class="container" style="background: transparent;">
+
+        <iframe scrolling="no" frameborder="no" clocktype="html5"
+                style="overflow:hidden;border:0;margin: 0px 1035px;position:fixed;padding:0;width:150px;height:150px;"
+                src="https://www.clocklink.com/html5embed.php?clock=041&timezone=JST&color=green&size=150&Title=&Message=&Target=&From=2019,1,1,0,0,0&Color=green"></iframe>
+
+    </div>
+
+
+    <h1>Enter todays' task</h1>
+
+    <ul>
+
+    </ul>
+    <ul>
+        {% comment %} <body onload="gotohome()"> {% endcomment %}
+        <body>
+        {% if today_user is None %}
+
+            <form action="addTask" method="post">
+                {% csrf_token %}
+
+                <lb style="color: blue; display: inline-block; width: 150px; "> 昨日やったこと :</lb>
+                {% if category_yesterday_con == None %}
+                    <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー"/>
+                    <datalist id="category_yesterday">
+
+                    {% for task_item in taskproject %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                {% else %}
+                {% for task_item in category_yesterday_con %}
+                    <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー"
+                           value="{{ task_item }}"/>
+                {% endfor %}
+                <datalist id="category_yesterday">
+                    {% for task_item in taskproject %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                {% endif %}
+                </datalist>
+                {% if yesterday_con == None %}
+                    <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと"/>
+                {% else %}
+                    {% for task_item in yesterday_con %}
+                        <input type="text" name="yesterday" style="width: 300px;" placeholder="昨日やったこと"
+                               value="{{ task_item }}"/>
+                    {% endfor %}
+                {% endif %}
+                <br/>
+
+                <lb style="color: blue; display: inline-block; width: 150px; ">今日やること :</lb>
+                <input list="category_today" name="category_today" 　placeholder="カテゴリー"/>
+                <datalist id="category_today">
+                    {% for task_item in taskproject %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                </datalist>
+                <input type="text" name="today" style="width: 300px;" placeholder="今日やったこと"/><br/>
+
+                <lb style="color: blue; display: inline-block; width: 150px; "> 困っていること :</lb>
+                <input list="category_bad" name="category_bad" 　placeholder="カテゴリー"/>
+                <datalist id="category_bad">
+                    {% for task_item in taskproject %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                </datalist>
+                <input type="text" name="bad" style="width: 300px;" placeholder=" 困っていること"/><br/>
+
+                <lb style="color: blue; display: inline-block; width: 150px; ">その他 :</lb>
+                <input list="category_other" name="category_other" 　placeholder="カテゴリー"/>
+                <datalist id="category_other">
+                    {% for task_item in taskproject %}
+                        <option value="{{ task_item }}">
+                    {% endfor %}
+                </datalist>
+                <input type="text" name="other" style="width: 300px;" placeholder=" その他"/><br/>
+
+                <input type="submit" value="add"><br/>
+
+            </form>
+        {% endif %}
+        <br><br><br><br><br>
+
+        <form style="display: inline;"
+              method="post"
+              id="myform">
+            {% csrf_token %}
+            <lb style="color: blue; display: inline-block; width: 150px; "> メッセージ :</lb>
+
+            <input list="message" name="message" 　placeholder="type your message here" style="width: 500px;"/>
+            <datalist id="message">
+                {% for message in allmessages %}
+                    <option value={{ message }}>
+                {% endfor %}
+            </datalist>
+            <select name="spec_user" id="select_id">
+                <option value="toall">toall</option>
+                {% for user in user_list %}
+                    <option value="{{ user }}">{{ user }}</option>
+                {% endfor %}
+            </select>
+            <br/>
+            <Button formaction="sendMessage" id="sendMessage" name="sendMessage"
+                    style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;">
+                sendMessage
+            </Button>
+        </form>
+    </ul>
+    <form style="display: inline;"
+          method="post"
+          id="myformsave">
+        {% csrf_token %}
+
+        <div style="position: fixed;right:110px;top:250px; outline: 2px dashed black; ">
+            {% for message in messages %}
+                <li>
+                    <lb style="color:#444422;">{{ message.message }} </lb>
+                </li>
+
+                <select name="senduser{{ message.id }}" id="senduser_id">
+                    <option value="{{ message.spec_user }}" selected>{{ message.spec_user }}</option>
+
+                    {% for user in user_list %}
+                        {% if user != message.spec_user %}
+                            <option value="{{ user }}">{{ user }}</option>
+                        {% elif message.spec_user != "toall" %}
+                            <option value="toall">toall</option>
+                        {% endif %}
+                    {% endfor %}
+
+
+                </select>
+
+                <select name="message{{ message.id }}" id="select_id">
+
+                    {% if message.visible is True %}
+                        <option value="visible" selected>visible</option>
+                    {% endif %}
+                    <option value="invisible">invisible</option>
+                    {% if message.visible is True %}
+                        <option value="visible" hidden>visible</option>
+                    {% else %}
+                        <option value="visible">visible</option>
+                    {% endif %}
+
+                </select>
+
+
+                <Button formaction="saveState/{{ message.id }}" id="sendMessage{{ message.id }}"
+                        name="sendMessage{{ message.id }}"
+                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;">
+                    save
+                </Button>
+                <Button formaction="deleteState/{{ message.id }}" id="deleteMessage{{ message.id }}"
+                        name="deleteMessage{{ message.id }}"
+                        style="border-radius: 10%;  color: white; background-color: #Ac3B61;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: 2px;">
+                    X
+                </Button>
+                {% if message.notification is False %}
+                    <lb>user has disabled the notification</lb>
+                {% endif %}
+                </br></br>
+            {% endfor %}
+
+        </div>
+    </form>
+    <iframe src="moveToConfirm" height="2000" width="1200" style="border:none;" scrolling="no"></iframe>
+
+    </body>
+    </html>
+{% else %}
+    <a class="nav-link" href="moveToLogin">
+        <h1>please login!!!!</h1>
+    </a>
+{% endif %}

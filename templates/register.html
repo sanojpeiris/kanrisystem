@@ -31,10 +31,10 @@
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="{% static "images/images.png"%}" alt="IMG" >
+                    <img src="{% static "images/images.png" %}" alt="IMG">
                 </div>
 
-                <form action="register" method="post" >
+                <form action="register" method="post">
                     {% csrf_token %}
                     <span class="login100-form-title">
 						User Registration
@@ -48,7 +48,7 @@
 						</span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz" >
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                         <input class="input100" type="text" name="email" placeholder="Email" required>
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
@@ -65,14 +65,14 @@
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="password2" placeholder="Confirm password" >
+                        <input class="input100" type="password" name="password2" placeholder="Confirm password">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
                     </div>
 
-                    <input type="checkbox" name="is_admin" id="is_admin" value="is_admin" > Make Admin<br>
+                    <input type="checkbox" name="is_admin" id="is_admin" value="is_admin"> Make Admin<br>
 
                     <div>
                         {% for message in messages %}
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn" name="register" >
+                        <button class="login100-form-btn" name="register">
                             Register
                         </button>
                     </div>

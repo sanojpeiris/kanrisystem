@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['172.16.26.89', 'localhost', '127.0.0.1','0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,6 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'webtaskapp.wsgi.application'
+
+ASGI_APPLICATION = 'webtaskapp.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
