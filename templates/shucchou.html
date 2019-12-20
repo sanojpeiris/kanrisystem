@@ -22,11 +22,11 @@
 
 <!-- 実績入力-->
 
-<label style="font-size:30px; ">勤怠情報</label><br><br><br>
+<label style="font-size:30px; ">出張情報</label><br><br><br>
 
 
 
-{% if today == firstday or today == secondday or today == thirdday %}
+{% comment %} {% if today == firstday or today == secondday or today == thirdday %} {% endcomment %}
 
 
     <form style='float: left;'
@@ -101,11 +101,16 @@
             </Button>
 
         {% endif %}
+            {%for shucchou_jisseki in shucchou_jisseki%}
+                {%if shucchou_jisseki.kakunin == True%}
+                    <lb>編集ロックをかかっています</lb>
+                {%endif%}
+            {%endfor%}
     </form>
 
-{% endif %}
+{% comment %} {% endif %}
 
-{% if today == lastday or today == lastday_sec or today == lastday_third %}
+{% if today == lastday or today == lastday_sec or today == lastday_third %} {% endcomment %}
     <form style='float: left;'
           method="post"
           id="myform">
@@ -176,9 +181,13 @@
             </Button>
 
         {% endif %}
-
+        {%for shucchou_yotei in shucchou_yotei%}
+                {%if shucchou_yotei.kakunin == True%}
+                    <lb>編集ロックをかかっています</lb>
+                {%endif%}
+            {%endfor%}
     </form>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 
 <body>
 </html>

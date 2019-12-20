@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import datetime
 from useractivities.filters import TaskFilter
-from useractivities.userRepository.models import TaskTable, TaskMessage, Kintai, Btrip
+from useractivities.userRepository.models import TaskTable, TaskMessage, Kintai, Btrip,jinkenhi
 from django.db import connection
 from django.utils.timezone import localtime, now
 from django.utils import timezone
@@ -39,7 +39,6 @@ def moveToKintai(request):
     value_overtime_jisseki = Kintai.objects.values_list('overtime', flat=True).filter(Month=previousmonth,
                                                                                       edit_username=username,
                                                                                       type="実績", )
-
     value_yotei_kakunin = Kintai.objects.values_list('kakunin', flat=True).filter(Month=nextmonth,
                                                                                   edit_username=username, type="予定", )
     value_jisseki_kakunin = Kintai.objects.values_list('kakunin', flat=True).filter(Month=previousmonth,
@@ -455,4 +454,18 @@ def viewShucchou_jisseki(request, username):
                                                                      "overtime_jisseki": value_overtime_jisseki,
                                                                      })
 
-# notify if everyone done
+#人件費情報ーーーーーーーーーー
+
+def moveTojinkenhi_input(request):
+    
+    return render(request,"jinkenhi_input.html",{})
+
+def savejinkenhijisseki(request):
+    save_jisskei=jinkenhi(
+        edit_username = username,
+        user_id=(request.POST["user_id"]),
+        department=(request.POST["department"]),
+    
+    )
+
+    return redirect("moveTojinkenhi_input")

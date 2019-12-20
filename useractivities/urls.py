@@ -25,6 +25,7 @@ urlpatterns = [
     path("back", viewsDailyTasks.back, name="back"),
     path("moveToUpdatePassword", viewsUser.moveToUpdatePassword, name="moveToUpdatePassword"),
     path("moveToJinkenhi", viewsJinkenhi.moveToJinkenhi, name="moveToJinkenhi"),
+    path("moveTojinkenhi_input", viewsJinkenhi.moveTojinkenhi_input, name="moveTojinkenhi_input"),
     path("moveToshucchou", viewsJinkenhi.moveToshucchou, name="moveToshucchou"),
     path("moveToKintai", viewsJinkenhi.moveToKintai, name="moveToKintai"),
     path("moveToConfirm", viewsJinkenhi.moveToConfirm, name="moveToConfirm"),
@@ -58,8 +59,9 @@ urlpatterns = [
     path("viewShucchou_yotei/<str:username>", viewsJinkenhi.viewShucchou_yotei, name="viewShucchou_yotei"),
     path("viewShucchou_jisseki/<str:username>", viewsJinkenhi.viewShucchou_jisseki, name="viewShucchou_jisseki"),
 
-    path("chat",viewsDailyTasks.chat,name="chat"),
-
+    path("chat/",viewsDailyTasks.chat,name="chat"),
+    path('chat/<str:room_name>/', viewsDailyTasks.room, name='room'),
+    path('delete_last', viewsDailyTasks.delete_last, name="delete_last"),
 
 
 ]

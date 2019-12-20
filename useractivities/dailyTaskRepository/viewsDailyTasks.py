@@ -3,10 +3,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import datetime
 from useractivities.filters import TaskFilter
-from useractivities.userRepository.models import TaskTable, TaskMessage
+from useractivities.userRepository.models import TaskTable, TaskMessage,Chat
 from django.db import connection
 from django.utils.timezone import localtime, now
 from django.utils import timezone
+from django.shortcuts import render
+from django.utils.safestring import mark_safe
+import json
 
 
 def moveToLogin(request):
@@ -288,5 +291,21 @@ def moveToSearch(request):
     # task_filter = TaskFilter(request.POST, queryset=task_list)
     return render(request, "base.html")
 
+# chat
+
 def chat(request):
     return render(request, 'chat/chat.html', {})
+
+def room(request, room_name):
+    username = request.user.username
+    chat= Chat.objects.all().filter(room=room_name)
+    return render(request, 'chat/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name)),
+        'logged_username':username,
+        'chat':chat
+    })
+
+def delete_last(request):
+    delete_last = connection.cursor()
+    delete_last.execute('DELETE FROM useractivities_chat WHERE id=(SELECT MAX(id) from useractivities_chat)')
+    return redirect("chat/room")

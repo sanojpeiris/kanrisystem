@@ -1,0 +1,108 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+   <script>
+        function scroll() {
+                var textarea = document.getElementById('chat-log_div');
+                textarea.scrollTop = textarea.scrollHeight;
+        }       
+        function notify(username,message) {
+            if (document.hasFocus()) {}else{
+                    if (Notification.permission !== "granted") {
+                        Notification.requestPermission();
+                    } else {
+                        var notification = new Notification("new meassage from "+username, {
+                            body: message
+                        },);
+                        notification.onhower = function () {
+                            window.open("notification_is/{{message.id}}");
+                        };
+                    }
+        }
+        //setInterval(checkPageFocus, 300);
+        }
+   </script>
+</head>
+<body onload="scroll();">
+   <div id ="chat-log_div" style="height: 100px; overflow-y : scroll;
+    background:#fff;
+    height:220px;
+    width:269px;
+    border:2px solid #ACD8F0;">
+    {%for chat in chat%}
+                <li style="list-style-type: none; color:blue;{%if logged_username != chat.username%}text-align:right;{%endif%}">{{chat.username}}&#10;</li>
+                <li style="list-style-type: none; {%if logged_username != chat.username%}text-align:right;{%endif%}">{{chat.chat}}&#10;&#10;</li>
+    {%endfor%}<br>
+    </div>
+    <textarea id="chat-message-input" cols="50" rows="0"></textarea><br>
+    {% comment %} <input id="chat-message-input" type="text" size="50"/><br/> {% endcomment %}
+    <input id="chat-message-submit" type="button" value="Send"/>
+    <input id="chat-message-back" type="button" value="selectroom"/>
+</body>
+<script>
+    var roomName = {{ room_name_json }};
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/' + roomName + '/');
+
+    chatSocket.onmessage = function(e) {        
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        var username = data['username'];
+
+        if (message=='clear'|message=='clear_user'){
+        location.reload();  
+        notify(username,"メッセージを削除しました");
+        } 
+
+        if(username != "{{logged_username}}") {         
+        document.querySelector('#chat-log_div').innerHTML += ("<li style='list-style-type: none; color:blue; text-align:right;'>"+username+ "</li>");
+        document.querySelector('#chat-log_div').innerHTML += ("<li style='list-style-type: none; text-align:right;' >"+message + "</li>");
+        }
+        else{
+        document.querySelector('#chat-log_div').innerHTML += ("<li style='list-style-type: none; color:blue;'>"+username+ "</li>");
+        document.querySelector('#chat-log_div').innerHTML += ("<li style='list-style-type: none;'>"+message + "</li>"); 
+        }
+        scroll();
+        notify(username,message);
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (event.keyCode == 13 && event.altKey){
+            if(document.querySelector('#chat-message-input').value.length != 0){            
+            document.querySelector('#chat-message-submit').click();
+        }}
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        if(document.querySelector('#chat-message-input').value.length != 0){
+        var messageInputDom = document.querySelector('#chat-message-input');
+        var username = "{{logged_username}}";
+        var message = messageInputDom.value.trim();
+
+        if(message=="go_back"){
+            location.href = "/delete_last";
+            location.href = "/chat/";
+            return;
+        }
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': username,
+        }));    
+        }
+        messageInputDom.value = '';
+    };
+    document.querySelector('#chat-message-back').onclick = function(e) {
+        location.href ="/chat/"
+    }
+</script>
+</html>

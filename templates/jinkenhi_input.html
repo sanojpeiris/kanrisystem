@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<!-- 実績入力-->
+
+<label style="font-size:30px; ">人件費情報</label><br><br><br>
+
+
+{% comment %} {% if today == firstday or today == secondday or today == thirdday %} {% endcomment %}
+
+
+    <form style='float: left;'
+          method="post"
+          id="myform">
+        {% csrf_token %}
+        <label>実績</label><br><br>
+        <table>
+            <thead>
+            <tr style="text-align: center; color:blue;">
+                <th>社員コード(5桁)</th>
+                <th>名前(自動更新)</th>
+                <th>所属課（部長以上は部）</th>
+                <th>開発コード</th>
+                <th>アイテム名(自動更新)</th>
+                <th>海外仕様</th>
+                <th>割合</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>
+                    <input type="text" id="user_id" name="user_id" style="width: 140px;" />
+                </td>
+                <td>
+                    <input type="text" id="name" name="name" style="width: 175px;" />
+                </td>
+                <td>
+                    <input type="text" id="department" name="department" style="width: 175px;" />
+                </td>
+                <td>
+                    <input type="text" id="product_id" name="product_id" style="width: 140px;" />
+                </td>
+                <td>
+                    <input type="text" id="itemname" name="itemname" style="width: 175px;" />
+                </td>
+                <td>
+                    <input type="text" id="kaigai" name="kaigai" style="width: 140px;" />
+                </td>
+                <td>
+                    <input type="text" id="percentage" name="percentage" style="width: 140px;" />
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+        <br>
+                    <Button formaction="saveKintai/jisseki" id="save_jisseki"
+                            name="save"
+                            style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                        save
+                    </Button>
+ 
+                <Button formaction="deleteKintai/jisseki" id="delete"
+                        name="delete"
+                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                    clear
+                </Button>
+    </form>
+
+{% comment %} {% endif %}
+           
+
+
+{% if today == lastday or today == lastday_sec or today == lastday_third %} {% endcomment %}
+   
+{% comment %} {% endif %} {% endcomment %}
+
+</body>
+</html>
