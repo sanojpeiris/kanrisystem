@@ -6,7 +6,7 @@
 <!-- 実績入力-->
 
 <label style="font-size:30px; ">勤怠情報</label><br><br><br>
-{% comment %} {%if today == firstday%} {% endcomment %}
+{%if today == firstday%}
 
 {% comment %} {%for visible in is_jisseki_visible%} {% endcomment %}
 {% comment %} {%if visible.is_visible is True%} {% endcomment %}
@@ -84,12 +84,12 @@
                                 
          {%endif%}                          
  </form>
-{% comment %} {%endif%} {% endcomment %}
+{%endif%}
 {% comment %} {%endfor%} {% endcomment %}
 {% comment %} {%endif%} {% endcomment %}
 
 <!-- 予定入力-->
-{% comment %} {%if today == lastday%} {% endcomment %}
+{%if today == lastday%}
 {% comment %} {%for visible in is_yotei_visible%} {% endcomment %}
 {% comment %} {%if is_yotei_visible.is_visible is True%} {% endcomment %}
 <form style ='float: left; padding-left: 100px;'
@@ -168,7 +168,7 @@
 
  </form>
  
-{% comment %} {%endif%} {% endcomment %}
+{%endif%}
 {% comment %} {%endfor%} {% endcomment %}
 {% comment %} {%endif%} {% endcomment %}
 

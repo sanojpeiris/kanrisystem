@@ -36,7 +36,7 @@ def moveToKintai(request):
     value_overtime_jisseki=Kintai.objects.values_list('overtime',flat=True).filter(Month=previousmonth, edit_username=username, type="実績", )
 
     value_yotei_kakunin=Kintai.objects.values_list('kakunin',flat=True).filter(Month=nextmonth, edit_username=username, type="予定", )
-    value_jisseki_kakunin=Kintai.objects.values_list('kakunin',flat=True).filter(Month=month, edit_username=username, type="実績", )
+    value_jisseki_kakunin=Kintai.objects.values_list('kakunin',flat=True).filter(Month=previousmonth, edit_username=username, type="実績", )
     
     is_yotei_visible=Kintai.objects.values('is_visible').filter(Month=nextmonth, edit_username=username, type="予定" )
     is_jisseki_visible=Kintai.objects.values('is_visible').filter(Month=month, edit_username=username, type="実績" )
@@ -44,9 +44,13 @@ def moveToKintai(request):
     print("is_visible",is_yotei_visible,is_jisseki_visible)
     today = datetime.date.today()
     # today = 2019-12-29
-    lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
+    # lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
+    def last_day_of_month(date):
+        if date.month == 12:
+            return date.replace(day=31)
+        return date.replace(month=date.month+1, day=1) - datetime.timedelta(days=1)
     firstday = today.replace(day=1)
-    lastday = today.replace(day=lastday_1-1)
+    lastday = last_day_of_month(dateToday)
     return render(request, "kintai.html",{"yotei":value_yotei,
                                         "overtime_yotei":value_overtime_yotei,
                                         "jisseki":value_jisseki,
@@ -67,12 +71,13 @@ def saveKintai_yotei(request):
     dateToday_next = dateToday+datetime.timedelta(31)
     nextmonth = dateToday_next.strftime('%B')
     # dateToday_previous = dateToday-datetime.timedelta(10)
-    now = datetime.datetime.now()
-    previousmonth_1 = now.month-1 if now.month > 1 else 12
-    previousmonth = calendar.month_name[previousmonth_1]
+    # now = datetime.datetime.now()
+    # previousmonth_1 = now.month-1 if now.month > 1 else 12
+    # previousmonth = calendar.month_name[previousmonth_1]
     add_to_kintai = Kintai(
         edit_username=username,
         type=("予定"),
+        created_month = month,
         teiji=(request.POST["teiji"]),
         overtime=(request.POST["overtime"]),
         done=True,
@@ -85,9 +90,16 @@ def saveKintai_yotei(request):
 
 def deleteKintai_yotei(request):
     username = request.user.username
-    type=("予定")
     dateToday = datetime.date.today()
-    delete_Kintai=Kintai.objects.all().filter(Date=dateToday,edit_username=username,type=type)
+    # month = dateToday.strftime('%B')
+    dateToday_next = dateToday+datetime.timedelta(31)
+    nextmonth = dateToday_next.strftime('%B')
+    type=("予定")
+    # dateToday_previous = dateToday-datetime.timedelta(10)
+    # now = datetime.datetime.now()
+    # previousmonth_1 = now.month-1 if now.month > 1 else 12
+    # previousmonth = calendar.month_name[previousmonth_1]
+    delete_Kintai=Kintai.objects.all().filter(Month=nextmonth,edit_username=username,type=type)
     delete_Kintai.delete()
 
     return redirect("moveToKintai")
@@ -96,8 +108,8 @@ def saveKintai_jisseki(request):
     username = request.user.username
     dateToday = datetime.date.today()
     month = dateToday.strftime('%B')
-    dateToday_next = dateToday+datetime.timedelta(31)
-    nextmonth = dateToday_next.strftime('%B')
+    # dateToday_next = dateToday+datetime.timedelta(31)
+    # nextmonth = dateToday_next.strftime('%B')
     # dateToday_previous = dateToday-datetime.timedelta(10)
     now = datetime.datetime.now()
     previousmonth_1 = now.month-1 if now.month > 1 else 12
@@ -107,6 +119,7 @@ def saveKintai_jisseki(request):
         type=("実績"),
         teiji=(request.POST["teiji"]),
         overtime=(request.POST["overtime"]),
+        created_month = month,
         done = True,
         Month=previousmonth,
      )
@@ -117,9 +130,16 @@ def saveKintai_jisseki(request):
 
 def deleteKintai_jisseki(request):
     username = request.user.username
+    # dateToday = datetime.date.today()
+    # month = dateToday.strftime('%B')
+    # dateToday_next = dateToday+datetime.timedelta(31)
+    # nextmonth = dateToday_next.strftime('%B')
     type=("実績")
-    dateToday = datetime.date.today()
-    delete_Kintai=Kintai.objects.all().filter(Date=dateToday,edit_username=username,type=type)
+    # dateToday_previous = dateToday-datetime.timedelta(10)
+    now = datetime.datetime.now()
+    previousmonth_1 = now.month-1 if now.month > 1 else 12
+    previousmonth = calendar.month_name[previousmonth_1]
+    delete_Kintai=Kintai.objects.all().filter(Month = previousmonth,edit_username=username,type=type)
     delete_Kintai.delete()
 
     return redirect("moveToKintai")
@@ -158,16 +178,19 @@ def moveToshucchou(request):
     value_overtime_jisseki=Btrip.objects.values_list('gout',flat=True).filter(Month=previousmonth, edit_username=username, type="実績")
     
     value_yotei_kakunin=Btrip.objects.values_list('kakunin',flat=True).filter(Month=nextmonth, edit_username=username, type="予定", )
-    value_jisseki_kakunin=Btrip.objects.values_list('kakunin',flat=True).filter(Month=month, edit_username=username, type="実績", )
+    value_jisseki_kakunin=Btrip.objects.values_list('kakunin',flat=True).filter(Month=previousmonth, edit_username=username, type="実績", )
 
     is_yotei_visible=Btrip.objects.values('is_visible').filter(Month=nextmonth, edit_username=username, type="予定" )
     is_jisseki_visible=Btrip.objects.values('is_visible').filter(Month=month, edit_username=username, type="実績" )
-
+    def last_day_of_month(date):
+        if date.month == 12:
+            return date.replace(day=31)
+        return date.replace(month=date.month+1, day=1) - datetime.timedelta(days=1)
     today = datetime.date.today()
     # today = 2019-12-29
-    lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
+    # lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
     firstday = today.replace(day=1)
-    lastday = today.replace(day=lastday_1-1)
+    lastday = last_day_of_month(dateToday)
     return render(request, "shucchou.html",{"yotei":value_yotei,
                                         "overtime_yotei":value_overtime_yotei,
                                         "jisseki":value_jisseki,
@@ -188,14 +211,15 @@ def saveshucchou_yotei(request):
     dateToday_next = dateToday+datetime.timedelta(31)
     nextmonth = dateToday_next.strftime('%B')
     # dateToday_previous = dateToday-datetime.timedelta(10)
-    now = datetime.datetime.now()
-    previousmonth_1 = now.month-1 if now.month > 1 else 12
-    previousmonth = calendar.month_name[previousmonth_1]
+    # now = datetime.datetime.now()
+    # previousmonth_1 = now.month-1 if now.month > 1 else 12
+    # previousmonth = calendar.month_name[previousmonth_1]
     add_to_Btrip = Btrip(
         edit_username=username,
         type=("予定"),
         B_money=(request.POST["teiji"]),
         gout=(request.POST["overtime"]),
+        created_month = month,
         done=True,
         Month=nextmonth,
      )
@@ -206,9 +230,16 @@ def saveshucchou_yotei(request):
 
 def deleteshucchou_yotei(request):
     username = request.user.username
-    type=("予定")
     dateToday = datetime.date.today()
-    delete_Kintai=Btrip.objects.all().filter(Date=dateToday,edit_username=username,type=type)
+    type=("予定")
+    # month = dateToday.strftime('%B')
+    dateToday_next = dateToday+datetime.timedelta(31)
+    nextmonth = dateToday_next.strftime('%B')
+    # dateToday_previous = dateToday-datetime.timedelta(10)
+    # now = datetime.datetime.now()
+    # previousmonth_1 = now.month-1 if now.month > 1 else 12
+    # previousmonth = calendar.month_name[previousmonth_1]
+    delete_Kintai=Btrip.objects.all().filter(month = nextmonth,edit_username=username,type=type)
     delete_Kintai.delete()
 
     return redirect("moveToshucchou")
@@ -217,8 +248,8 @@ def saveshucchou_jisseki(request):
     username = request.user.username
     dateToday = datetime.date.today()
     month = dateToday.strftime('%B')
-    dateToday_next = dateToday+datetime.timedelta(31)
-    nextmonth = dateToday_next.strftime('%B')
+    # dateToday_next = dateToday+datetime.timedelta(31)
+    # nextmonth = dateToday_next.strftime('%B')
     # dateToday_previous = dateToday-datetime.timedelta(10)
     now = datetime.datetime.now()
     previousmonth_1 = now.month-1 if now.month > 1 else 12
@@ -228,6 +259,7 @@ def saveshucchou_jisseki(request):
         type=("実績"),
         B_money=(request.POST["teiji"]),
         gout=(request.POST["overtime"]),
+        created_month = month,
         done = True,
         Month=previousmonth,
      )
@@ -238,9 +270,16 @@ def saveshucchou_jisseki(request):
 
 def deleteshucchou_jisseki(request):
     username = request.user.username
+    # dateToday = datetime.date.today()
+    # month = dateToday.strftime('%B')
+    # dateToday_next = dateToday+datetime.timedelta(31)
+    # nextmonth = dateToday_next.strftime('%B')
+    # dateToday_previous = dateToday-datetime.timedelta(10)
     type=("実績")
-    dateToday = datetime.date.today()
-    delete_Kintai=Btrip.objects.all().filter(Date=dateToday,edit_username=username,type=type)
+    now = datetime.datetime.now()
+    previousmonth_1 = now.month-1 if now.month > 1 else 12
+    previousmonth = calendar.month_name[previousmonth_1]
+    delete_Kintai=Btrip.objects.all().filter(Month = previousmonth,edit_username=username,type=type)
     delete_Kintai.delete()
 
     return redirect("moveToshucchou")
@@ -249,24 +288,40 @@ def deleteshucchou_jisseki(request):
 #confirm form
 
 def moveToConfirm(request):
+    username = request.user.username
+    dateToday = datetime.date.today()
+    month = dateToday.strftime('%B')
+    dateToday_next = dateToday+datetime.timedelta(31)
+    nextmonth = dateToday_next.strftime('%B')
+    # dateToday_previous = dateToday-datetime.timedelta(10)
+    now = datetime.datetime.now()
+    previousmonth_1 = now.month-1 if now.month > 1 else 12
+    previousmonth = calendar.month_name[previousmonth_1]
+    
     kintai_yotei=Kintai.objects.all().filter(type="予定")
     kintai_shucchou=Kintai.objects.all().filter(type="実績")
     shucchou_yotei=Btrip.objects.all().filter(type="予定")
     shucchou_jisseki=Btrip.objects.all().filter(type="実績")
-    kintai_all = Kintai.objects.all().filter()
-    shucchou_all = Btrip.objects.all().filter()
+    kintai_all = Kintai.objects.all().filter(created_month=month) #TODO: complete here. i think have to create a created month
+    shucchou_all = Btrip.objects.all().filter(created_month=month)
     user_list = User.objects.values_list('username', flat=True).distinct()
     print("userlist-",user_list)
     today = datetime.date.today()
-    lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
+    # lastday_1 = calendar.monthrange(int(strftime("%Y", gmtime())), int(strftime("%m", gmtime())))[1]
     firstday = datetime.date.today().replace(day=1)
-    lastday = datetime.date.today().replace(day=lastday_1-1)
-
+    # lastday = datetime.date.today().replace(day=lastday_1-1)
+    # day_last = calendar.monthrange( month)[1]
+    def last_day_of_month(date):
+        if date.month == 12:
+            return date.replace(day=31)
+        return date.replace(month=date.month+1, day=1) - datetime.timedelta(days=1)
     
-    print("last day-",lastday)
+    print("last day-",last_day_of_month(dateToday))
     print("today-",today)
     print("first day-",firstday)
+
     # lastDay == today
+    lastday = last_day_of_month(dateToday)
     dateToday = datetime.date.today()
     month = dateToday.strftime('%B')
     dateToday_next = dateToday+datetime.timedelta(31)
@@ -309,7 +364,12 @@ def shucchou_sashimodoshi(request,kakunin_id):
     is_kakunin_ok.save()
     return redirect("moveToConfirm")
 
-def confirm_all(request):
+def confirm_all_kintai(request):
     confirm_cursor=connection.cursor()
     confirm_cursor.execute('UPDATE useractivities_kintai set kakunin=True;')
+    return redirect("moveToConfirm")
+
+def confirm_all_shucchou(request):
+    confirm_cursor=connection.cursor()
+    confirm_cursor.execute('UPDATE useractivities_btrip set kakunin=True;')
     return redirect("moveToConfirm")

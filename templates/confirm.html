@@ -13,7 +13,7 @@
               id="myform">
             {% csrf_token %}
 <br><br>
-<Button formaction="confirm_all" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
+<Button formaction="confirm_all_kintai" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
 <table >
                     <thead>
                     <tr style="text-align: center; color:blue;">
@@ -24,12 +24,23 @@
                         <th>Button</th>      
                     </tr>
                     </thead>                   
-                    <tbody>                         
+                    <tbody>   
+                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                      
                     {%for user_list in user_list%}
                         {% for kintai_all in kintai_all%} 
                             {%if kintai_all.edit_username == user_list%} 
                         <tr>                          
-                            <td>{{user_list}}</td>
+                            <td><div id="hoverMe" >{{user_list}}</div>
+                            <iframe id="tooltip" src="moveToKintai" style="border: 2px solid red; display: none; height:240px;  width: 400px;"></iframe>
+                            <script>
+                            $('#hoverMe').hover(function () {
+                                $('#tooltip').fadeIn();
+                            }, function () {
+                                $('#tooltip').fadeOut();
+                            });
+                            </script>
+                            </td>
                             <td>{{kintai_all.Month}}</td>
                             <td>{{kintai_all.type}}</td>
                             <td>{%if kintai_all.done is True %}完了{%else%}未完了{%endif%}</td> 
@@ -55,7 +66,7 @@
               id="myform">
             {% csrf_token %}
 <br><br>
-<Button formaction="confirm_all" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
+<Button formaction="confirm_all_shucchou" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
 <table >
                     <thead>
                     
