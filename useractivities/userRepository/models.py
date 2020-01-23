@@ -63,7 +63,7 @@ class jinkenhi(models.Model):
     percentage = models.IntegerField(null=True)
     Date = models.DateField(null=True, blank=False, auto_now_add=True)
     created_month = models.CharField(max_length=100, null=True, blank=False)
-    Month = models.CharField(max_length=100, null=True, blank=False)
+    Month = models.CharField(max_length=99, null=True, blank=False)
     time = models.TimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
     kakunin = models.BooleanField(default=False)

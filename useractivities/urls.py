@@ -63,5 +63,8 @@ urlpatterns = [
     path('chat/<str:room_name>/', viewsDailyTasks.room, name='room'),
     path('delete_last', viewsDailyTasks.delete_last, name="delete_last"),
 
+    path('savejinkenhijisseki/<int:jinkenhi_id>', viewsJinkenhi.savejinkenhijisseki, name="savejinkenhijisseki"),
+    path('add_jinkenhijisseki', viewsJinkenhi.add_jinkenhijisseki, name="add_jinkenhijisseki"),
+    path("deleteJinkenhi_jisseki/<int:jinkenhi_id>", viewsJinkenhi.deleteJinkenhi_jisseki, name="deleteJinkenhi_jisseki"),
 
 ]

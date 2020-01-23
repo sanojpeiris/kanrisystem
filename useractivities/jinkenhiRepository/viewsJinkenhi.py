@@ -457,15 +457,54 @@ def viewShucchou_jisseki(request, username):
 #人件費情報ーーーーーーーーーー
 
 def moveTojinkenhi_input(request):
-    
-    return render(request,"jinkenhi_input.html",{})
+    user_detail=User.objects.all().order_by("id")
+    jinkenhi_list = jinkenhi.objects.all().filter(created_month="January")
+    return render(request,"jinkenhi_input.html",{"user_d":user_detail,
+                                                 "jinkenhi":jinkenhi_list,})
 
-def savejinkenhijisseki(request):
-    save_jisskei=jinkenhi(
-        edit_username = username,
-        user_id=(request.POST["user_id"]),
-        department=(request.POST["department"]),
-    
-    )
+def savejinkenhijisseki(request,jinkenhi_id):
+    username = request.user.username
+    dateToday = datetime.date.today()
+    month = dateToday.strftime('%B')
+
+    save_jisseki=jinkenhi.objects.get(id=jinkenhi_id)
+    save_jisseki.edit_username = username
+    save_jisseki.user_id=request.POST["user_id%d" % jinkenhi_id]
+    save_jisseki.department=request.POST["department%d" % jinkenhi_id]
+    save_jisseki.product_id=request.POST["product_id%d" % jinkenhi_id]
+    save_jisseki.kaigai=request.POST["kaigai%d" % jinkenhi_id]
+    save_jisseki.percentage=request.POST["percentage%d" % jinkenhi_id]
+    save_jisseki.created_month = month
+    save_jisseki.time=datetime.datetime.now()
+    save_jisseki.save()
+
+    return redirect("moveTojinkenhi_input")
+
+# def shucchou_sashimodoshi(request, kakunin_id):
+#     is_kakunin_ok = Btrip.objects.get(id=kakunin_id)
+#     is_kakunin_ok.kakunin = False
+#     is_kakunin_ok.done = False
+#     is_kakunin_ok.save()
+#     return redirect("moveToConfirm")
+
+def add_jinkenhijisseki(request):
+    add_newline=connection.cursor()
+    add_newline.execute("INSERT into useractivities_jinkenhi(edit_username,created_month,time,done,kakunin) values('sanoj','January',now(),0,0)")
+
+    return redirect("moveTojinkenhi_input")
+
+def deleteJinkenhi_jisseki(request,jinkenhi_id):
+    username = request.user.username
+    dateToday = datetime.date.today()
+    month = dateToday.strftime('%B')
+    # dateToday_next = dateToday + datetime.timedelta(31)
+    # nextmonth = dateToday_next.strftime('%B')
+    # # dateToday_previous = dateToday-datetime.timedelta(10)
+    # now = datetime.datetime.now()
+    # previousmonth_1 = now.month - 1 if now.month > 1 else 12
+    # previousmonth = calendar.month_name[previousmonth_1]
+
+    delete_jinkenhi = jinkenhi.objects.all().filter(id=jinkenhi_id)
+    delete_jinkenhi.delete()
 
     return redirect("moveTojinkenhi_input")

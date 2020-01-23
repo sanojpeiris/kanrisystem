@@ -88,13 +88,22 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'useractivities/mydatabase',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'useractivities/mydatabase',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'webapp',
+        'USER': 'root',
+        'PASSWORD': 'jtrr4782',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -125,6 +134,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

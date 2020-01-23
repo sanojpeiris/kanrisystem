@@ -10,14 +10,23 @@
 
 
 {% comment %} {% if today == firstday or today == secondday or today == thirdday %} {% endcomment %}
-
-
+    <form style='float: left;'
+          method="post"
+          id="myform">
+          {% csrf_token %}
+        <label>実績</label> <Button formaction="add_jinkenhijisseki" id="add_jisseki"
+                            name="add"
+                            style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                        add
+                    </Button>
+                    </form><br><br>
+{%for jinkenhi in jinkenhi%}
     <form style='float: left;'
           method="post"
           id="myform">
         {% csrf_token %}
-        <label>実績</label><br><br>
         <table>
+        {%if forloop.first%}
             <thead>
             <tr style="text-align: center; color:blue;">
                 <th>社員コード(5桁)</th>
@@ -29,50 +38,66 @@
                 <th>割合</th>
             </tr>
             </thead>
+        {%endif%}
             <tbody>
 
             <tr>
                 <td>
-                    <input type="text" id="user_id" name="user_id" style="width: 140px;" />
+                    <input type="text" id="user_id" name="user_id{{jinkenhi.id}}" style="width: 140px;" value={{jinkenhi.user_id}} placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="name" name="name" style="width: 175px;" />
+                    <input type="text" id="name" name="name{{jinkenhi.id}}" style="width: 175px;" placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="department" name="department" style="width: 175px;" />
+                    <input type="text" id="department" name="department{{jinkenhi.id}}" style="width: 175px;" value="{{jinkenhi.department}}" placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="product_id" name="product_id" style="width: 140px;" />
+                    <input type="text" id="product_id" name="product_id{{jinkenhi.id}}" style="width: 140px;" value="{{jinkenhi.product_id}}" placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="itemname" name="itemname" style="width: 175px;" />
+                    <input type="text" id="itemname" name="itemname{{jinkenhi.id}}" style="width: 175px;" placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="kaigai" name="kaigai" style="width: 140px;" />
+                    <input type="text" id="kaigai" name="kaigai{{jinkenhi.id}}" style="width: 140px;" value="{{jinkenhi.kaigai}}" placeholder={{jinkenhi.id}} />
+                </td>
+                <td id="percentage_id">
+                    <input type="text" id="percentage" name="percentage{{jinkenhi.id}}" style="width: 140px;" value="{{jinkenhi.percentage}}" placeholder={{jinkenhi.id}} />
                 </td>
                 <td>
-                    <input type="text" id="percentage" name="percentage" style="width: 140px;" />
-                </td>
-
-            </tr>
-            </tbody>
-
-        </table>
-
-        <br>
-                    <Button formaction="saveKintai/jisseki" id="save_jisseki"
+                <Button formaction="savejinkenhijisseki/{{jinkenhi.id}}" id="save_jisseki"
                             name="save"
                             style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
                         save
-                    </Button>
- 
-                <Button formaction="deleteKintai/jisseki" id="delete"
+                </Button>
+                </td>
+
+                <td>
+                <Button formaction="deleteJinkenhi_jisseki/{{jinkenhi.id}}" id="delete"
                         name="delete"
                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
                     clear
                 </Button>
-    </form>
+                </td>
+            </tr>
+            
+            </tbody>
+            
+            
+        </table>
+                
 
+                
+                    {% comment %} <Button formaction="add_jinkenhijisseki" id="add_jisseki"
+                            name="add"
+                            style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;">
+                        add
+                    </Button> {% endcomment %}               
+    </form>
+{%endfor%}
+ <script>
+        var x = document.getElementById("percentage_id");
+           alert("Total number of  inputs: " + x.value);
+ </script>
 {% comment %} {% endif %}
            
 

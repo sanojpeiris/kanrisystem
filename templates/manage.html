@@ -76,7 +76,6 @@
                 {% if category_yesterday_con == None %}
                     <input list="category_yesterday" name="category_yesterday" placeholder="カテゴリー"/>
                     <datalist id="category_yesterday">
-
                     {% for task_item in taskproject %}
                         <option value="{{ task_item }}">
                     {% endfor %}

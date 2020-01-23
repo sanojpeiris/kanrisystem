@@ -41,11 +41,11 @@ def moveToTodo(request):
     cursor2 = connection.cursor()
     cursor1.execute(
         "SELECT taskProject  from useractivities_tasktable where date =(select max(date) from "
-        "useractivities_tasktable WHERE date < DATE('now') ) and tasktype='2今日やること' and edit_username = %s",
+        "useractivities_tasktable WHERE date < now() ) and tasktype='2今日やること' and edit_username = %s",
         [username])
     cursor2.execute(
         "SELECT task from useractivities_tasktable where date =(select max(date) from useractivities_tasktable WHERE "
-        "date < DATE('now') ) and tasktype='2今日やること' and edit_username = %s", [username])
+        "date < now() ) and tasktype='2今日やること' and edit_username = %s", [username])
 
     messages = TaskMessage.objects.all()
     messages_2 = TaskMessage.objects.all().filter(visible=True)
@@ -55,17 +55,22 @@ def moveToTodo(request):
     print("visibleT ", visible_list)
     print("msg_true ", messages_2)
 
-    row_category_today_old = cursor1.fetchall()
-    row_today_old = cursor2.fetchall()
-
-    row_category_today = [i[0] for i in row_category_today_old]
-    row_today = [i[0] for i in row_today_old]
-    print(row_category_today)
+    category_c=cursor1.fetchone()
+    yesterday_c = cursor2.fetchone()
+    # row_category_today_old = cursor1.fetchone()[0]
+    # row_today_old = cursor2.fetchall()
+    # row_today = [i[0] for i in row_today_old]
+    # row_category_today= [i[0] for i in row_category_today_old]
+    if category_c == None:
+        print("********************", "null")
+    else:
+        print("********************",category_c)
+    
     checked = "checked"
     return render(request, "manage.html", {"all_items": all_todo_items,
                                            "taskproject": taskproject,
-                                           "category_yesterday_con": row_category_today,
-                                           "yesterday_con": row_today,
+                                           "category_yesterday_con": category_c,
+                                           "yesterday_con": yesterday_c,
                                            "messages": messages,
                                            "messages_2": messages_2,
                                            #  "visibility":visible,
@@ -207,7 +212,7 @@ def addTask(request):
 def addrow(request, todo_id):
     username = request.user.username
     dateToday = datetime.date.today()
-    timenow = datetime.datetime.now().strftime('%H:%M:%S:%M')
+    timenow = datetime.datetime.now()#.strftime('%H:%M:%S:%M')
     cursoradd = connection.cursor()
 
     cursor_Ttype = connection.cursor()

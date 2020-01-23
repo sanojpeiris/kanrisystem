@@ -3,17 +3,18 @@ from django.contrib.auth.models import auth, User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from useractivities.filters import TaskFilter
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
 
 # from useractivities.userRepository.models import TaskItem
 
 
 def login(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password1"]
-        user = auth.authenticate(username=username, password=password)
-
+        email = request.POST["email"]
+        password = request.POST["password"]
+        user = auth.authenticate(username = email, password=password)
+               
         if user is None:
             messages.info(request, "invalid information")
             return redirect("/")
@@ -24,7 +25,6 @@ def login(request):
             else:
                 auth.login(request, user)
                 return redirect(moveToHome)
-
     else:
         return render(request, "login.html")
 

@@ -1,5 +1,5 @@
 {% load static %}
-{% if user.is_authenticated %}
+{% comment %} {% if user.is_authenticated %} {% endcomment %}
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -122,11 +122,11 @@
 
     </body>
     </html>
-{% else %}
+{% comment %} {% else %}
     <a class="nav-link" href="moveToLogin">
         <h1>please login!!!!</h1>
     </a>
-{% endif %}
+{% endif %} {% endcomment %}
 
 
 
