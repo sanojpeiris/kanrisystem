@@ -8,6 +8,7 @@ from django.db import connection
 from django.utils.timezone import localtime, now
 from django.utils import timezone
 
+
 def moveToLogin(request):
     return render(request, "login.html")
 

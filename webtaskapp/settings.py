@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'useractivities',
     'clear_cache',
-    # 'python-dateutil',
+    #  'dateutil',
 
 ]
 

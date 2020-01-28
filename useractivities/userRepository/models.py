@@ -32,6 +32,7 @@ class Kintai(models.Model):
     time = models.TimeField(auto_now_add=True)
     done=models.BooleanField(default=False)
     kakunin=models.BooleanField(default=False)
+    is_visible=models.BooleanField(default=False)
 
 
 class Btrip(models.Model):
@@ -44,3 +45,4 @@ class Btrip(models.Model):
     time = models.TimeField(auto_now_add=True)
     done=models.BooleanField(default=False)
     kakunin=models.BooleanField(default=False)
+    is_visible=models.BooleanField(default=False)

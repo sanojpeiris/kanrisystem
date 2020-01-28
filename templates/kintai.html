@@ -4,9 +4,12 @@
     <body onload="add_number_yotei(),add_number_jisseki()">
     
 <!-- 実績入力-->
-  
-                          
+
 <label style="font-size:30px; ">勤怠情報</label><br><br><br>
+{% comment %} {%if today == firstday%} {% endcomment %}
+
+{% comment %} {%for visible in is_jisseki_visible%} {% endcomment %}
+{% comment %} {%if visible.is_visible is True%} {% endcomment %}
  <form style ='float: left;'
               method="post"
               id="myform">
@@ -55,7 +58,7 @@
   {%for jisseki_kakunin in jisseki_kakunin%}
             {%if jisseki_kakunin is False%}   
                   
-  {%if not jisseki %}
+                    {%if not jisseki %}
                       <Button formaction="saveKintai/jisseki" id="save_jisseki"
                                         name="save"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > save
@@ -65,7 +68,7 @@
                                         name="delete"
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > clear
                                 </Button>
-                                                                {%endif%}  
+                          {%endif%}  
             
 {%endfor%} 
       {%if not jisseki%}                                                 
@@ -81,9 +84,15 @@
                                 
          {%endif%}                          
  </form>
-<!-- 予定入力-->
+{% comment %} {%endif%} {% endcomment %}
+{% comment %} {%endfor%} {% endcomment %}
+{% comment %} {%endif%} {% endcomment %}
 
- <form style ='float: left; padding-left: 100px;'
+<!-- 予定入力-->
+{% comment %} {%if today == lastday%} {% endcomment %}
+{% comment %} {%for visible in is_yotei_visible%} {% endcomment %}
+{% comment %} {%if is_yotei_visible.is_visible is True%} {% endcomment %}
+<form style ='float: left; padding-left: 100px;'
               method="post"
               id="myform">
             {% csrf_token %}
@@ -155,23 +164,13 @@
                                         style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
                                 </Button>
                                 
-         {%endif%}       
-
-
-  {% comment %} {%if yotei == none%}  
-<Button formaction="saveKintai/yotei" id="save_yotei"
-                                        name="save"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > save
-                                </Button>
- {%endif%}                         {% endcomment %}
-                      {% comment %} <Button formaction="deleteKintai/yotei" id="delete"
-                                        name="delete"
-                                        style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px; " > clear
-                                </Button> {% endcomment %}
-                                    
+         {%endif%}                                          
 
  </form>
-
  
+{% comment %} {%endif%} {% endcomment %}
+{% comment %} {%endfor%} {% endcomment %}
+{% comment %} {%endif%} {% endcomment %}
+
  <body>
  </html>

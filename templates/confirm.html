@@ -32,7 +32,7 @@
                             <td>{{user_list}}</td>
                             <td>{{kintai_all.Month}}</td>
                             <td>{{kintai_all.type}}</td>
-                            <td>{%if kintai_all.done is True %}完了{%endif%}</td> 
+                            <td>{%if kintai_all.done is True %}完了{%else%}未完了{%endif%}</td> 
                             {%if kintai_all.kakunin is not True%}
                             <td><Button formaction="kintai_kakunin/{{kintai_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > confirm</Button></td> 
                             {%endif%}
@@ -50,11 +50,12 @@
 <!-- 出張情報-->
  
 
-<form style ='float: left;'
+<form style ='float: left; padding-left: 20px;'
               method="post"
               id="myform">
             {% csrf_token %}
 <br><br>
+<Button formaction="confirm_all" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;" > confirm all</Button></td> 
 <table >
                     <thead>
                     
@@ -74,7 +75,7 @@
                             <td>{{user_list}}</td>
                             <td>{{shucchou_all.Month}}</td>
                             <td>{{shucchou_all.type}}</td>
-                            <td>{%if shucchou_all.done is True %}完了{%endif%}</td> 
+                            <td>{%if shucchou_all.done is True %}完了{%else%}未完了{%endif%}</td> 
                             {%if shucchou_all.kakunin is not True%}
                             <td><Button formaction="shucchou_kakunin/{{shucchou_all.id}}" id="save_jisseki"name="save"style="border-radius: 10%;  color: white; background-color: #d4a690;padding: 5px 12px;text-align: center;display: inline-block;font-size: 16px;margin: -5px;" > confirm</Button></td> 
                             {%endif%}
